@@ -219,15 +219,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\script\map\HexCell.cs" />
-    <Compile Include="Assets\script\map\HexCoordinates.cs" />
-    <Compile Include="Assets\script\map\HexCoordinatesDrawer.cs" />
-    <Compile Include="Assets\script\map\HexGrid.cs" />
-    <Compile Include="Assets\script\map\HexMesh.cs" />
-    <Compile Include="Assets\script\map\HexMetrics.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\VertexColors.shader" />
+    <Compile Include="Assets\Resources\script\HexCell.cs" />
+    <Compile Include="Assets\Resources\script\HexCoordinates.cs" />
+    <Compile Include="Assets\Resources\script\HexCoordinatesDrawer.cs" />
+    <Compile Include="Assets\Resources\script\HexGrid.cs" />
+    <Compile Include="Assets\Resources\script\HexMesh.cs" />
+    <Compile Include="Assets\Resources\script\HexMetrics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
