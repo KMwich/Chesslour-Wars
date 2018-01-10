@@ -57,10 +57,4 @@ MonoBehaviour:
   touchedColor: {r: 1, g: 0, b: 1, a: 1}
   cellPrefab: {fileID: 114489023582215340, guid: 0b1cee7e92a52e643966fbf0c558b302,
     type: 2}
-  cellLabelPrefab: {fileID: 114113975230025180, guid: 0278a3e68c9eb2a41aa8b852e8aa167e,
-    type: 2}
-  maps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  maps: []

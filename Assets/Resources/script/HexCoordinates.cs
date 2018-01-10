@@ -64,8 +64,9 @@ public struct HexCoordinates {
             }
         }
 
-        Debug.Log(iX + "," + iZ + "," + iY);
+        //Debug.Log(iX + "," + iZ + "," + iY);
 
         return new HexCoordinates(iX, iZ);
     }
+
 }
