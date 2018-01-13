@@ -84,6 +84,13 @@
     <Compile Include="Assets\Resources\script\HexGrid.cs" />
     <Compile Include="Assets\Resources\script\HexMesh.cs" />
     <Compile Include="Assets\Resources\script\HexMetrics.cs" />
+    <Compile Include="Assets\Resources\script\select scene\GameStatus.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printCoin.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printText.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printText2.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printText3.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printText4.cs" />
+    <Compile Include="Assets\Resources\script\select scene\switchScroll.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
