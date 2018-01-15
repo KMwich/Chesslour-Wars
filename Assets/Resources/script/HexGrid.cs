@@ -53,6 +53,7 @@ public class HexGrid : MonoBehaviour {
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
         cell.color = defaultColor;
         cell.GetComponent<SpriteRenderer>().sprite = maps[i % 4];
+        DontDestroyOnLoad(this.transform);
     }
 
     void Update() {
