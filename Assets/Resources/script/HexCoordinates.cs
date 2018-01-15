@@ -69,4 +69,14 @@ public struct HexCoordinates {
         return new HexCoordinates(iX, iZ);
     }
 
+    public static Vector3 cubeToOffset (HexCoordinates coordinate) {
+        Vector3 vector;
+
+        vector.x = coordinate.X * (HexMetrics.outerRadius * 1.5f);
+        vector.y = 0f;
+        vector.z = (coordinate.Y + coordinate.X * 0.5f - coordinate.X / 2) * (HexMetrics.innerRadius * 2f);
+
+        return vector;
+    }
+
 }
