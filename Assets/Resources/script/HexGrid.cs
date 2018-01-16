@@ -55,7 +55,6 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-        cell.color = defaultColor;
         cell.setType(i % 4);
         cell.setMap(maps[cell.mapType]);
     }
@@ -74,15 +73,21 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    public Vector3 getTouchCoordinate() {
+        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast(inputRay, out hit);
+        return hit.point;
+    }
+
     void TouchCell (Vector3 position) {
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        setHexFilter(coordinates, 2);
-        hexMesh.Triangulate(cells);
+        setHexFilter(coordinates, 1);
     }
 
     void setHexFilter(HexCoordinates coordinate, int size) {
-        //if (hexFilter != null) clearHexFilter();
+        if (hexFilter != null) clearHexFilter();
         hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
         hexFilter.transform.SetParent(transform, false);
         hexFilter.setHexFilterSize(size);
@@ -94,32 +99,22 @@ public class HexGrid : MonoBehaviour {
             if ((iX < 0 || iX >= width)) continue;
             for (int y = Mathf.Max(-size, -x - size); y <= Mathf.Min(size, -x + size); y++) {
                 int iY = y + coordinate.Y;
-
+                
                 if (((iY + iX / 2) < 0 || (iY + iX / 2) >= height)) continue;
 
                 int index = iX + (iY + iX / 2) * width;
 
-                if (cells[index] != null) hexFilter.setCoordinate(HexCoordinates.FromOffsetCoordinates(iX, iY),i);
+                if (cells[index] != null)
+                    hexFilter.setCoordinate(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2),i);
                 
                 i++;
             }
         }
+
     }
 
-    //void clearHexFilter() {
-    //    for (int x = -hexFilterSize; x <= hexFilterSize; x++) {
-    //        int iX = x + hexFilterCoordinates.X;
-
-    //        if ((iX < 0 || iX >= width)) continue;
-    //        for (int y = Mathf.Max(-hexFilterSize, -x - hexFilterSize); y <= Mathf.Min(hexFilterSize, -x + hexFilterSize); y++) {
-    //            int iY = y + hexFilterCoordinates.Y;
-
-    //            if (((iY + iX / 2) < 0 || (iY + iX / 2) >= height)) continue;
-
-    //            int index = iX + (iY + iX / 2) * width;
-    //            if (cells[index] != null) cells[index].setMap(maps[cells[index].mapType]);
-    //        }
-    //    }
-    //}
+    void clearHexFilter() {
+        Destroy(hexFilter.gameObject);
+    }
 
 }

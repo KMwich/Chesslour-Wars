@@ -16,8 +16,10 @@ public class HexFilter : MonoBehaviour {
 
     public void setCoordinate(HexCoordinates coordinate, int index) {
         Vector3 position = HexCoordinates.cubeToOffset(coordinate);
+        position.x = position.x * HexMetrics.outerRadius * 1.5f;
         position.y = 0.1f;
-        
+        position.z = (position.z + position.x * 0.5f - (int) position.x / 2) * (HexMetrics.innerRadius * 2f);
+
         HexCell cell = cells[index] = Instantiate<HexCell>(cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;

@@ -4,8 +4,6 @@ public class HexCell : MonoBehaviour {
 
     public HexCoordinates coordinates;
 
-    public Color color;
-
     public int mapType;
 
     public void setType(int type) {
