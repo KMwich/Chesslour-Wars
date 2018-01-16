@@ -1,0 +1,151 @@
+{
+	"Attacker":[
+		
+		{
+			"name":"Warriror",
+			"AbilityName":"United we stand",
+			"AbilityIndex":1,
+			"SkillName1":"-",
+			"SkillIndex1":0,
+			"SkillName2":"-",
+			"SkillIndex2":0,
+			"Atk":15,
+			"Def":15,
+			"Hp":18,
+			"cost":2,
+			"movement":2,
+			"Atkrange":1,
+			"Type":"Infantry"
+		},
+
+		{
+			"name":"Hunter",
+			"AbilityName":"Camouflage",
+			"AbilityIndex":2,
+			"SkillName1":"Spike Trap",
+			"SkillIndex1":1,
+			"SkillName2":"Zoom",
+			"SkillIndex2":2,
+			"Atk":18,
+			"Def":14,
+			"Hp":10,
+			"cost":3,
+			"movement":2,
+			"Atkrange":2,
+			"Type":"Infantry"
+		},
+
+		{
+			"name":"Fire mage",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"Fire Blast",
+			"SkillIndex1":3,
+			"SkillName2":"Power Boost",
+			"SkillIndex2":4,
+			"Atk":10,
+			"Def":10,
+			"Hp":10,
+			"cost":2,
+			"movement":2,
+			"Atkrange":2,
+			"Type":"Infantry"
+		},
+
+		{
+			"name":"Ice mage",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"Freeze Lance",
+			"SkillIndex1":5,
+			"SkillName2":"Guard Boost",
+			"SkillIndex2":6,
+			"Atk":8,
+			"Def":12,
+			"Hp":12,
+			"cost":2,
+			"movement":2,
+			"Atkrange":2,
+			"Type":"Infantry"
+		},
+
+		{
+			"name":"Wind mage",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"Heavy Strom",
+			"SkillIndex1":7,
+			"SkillName2":"Wind Boost",
+			"SkillIndex2":8,
+			"Atk":13,
+			"Def":8,
+			"Hp":8,
+			"cost":2,
+			"movement":2,
+			"Atkrange":2,
+			"Type":"Infantry"
+		}
+	],
+
+    "Supporter":[
+		{
+			"name":"Priest",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"Heal",
+			"SkillIndex1":9,
+			"SkillName2":"-",
+			"SkillIndex2":0,
+			"Atk":0,
+			"Def":5,
+			"Hp":15,
+			"cost":3,
+			"movement":2,
+			"Atkrange":0,
+			"Type":"Infantry"
+		}
+	],
+
+	"Sturture":[
+		{
+			"name":"Catapult",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"-",
+			"SkillIndex1":0,
+			"SkillName2":"-",
+			"SkillIndex2":0,
+			"Atk":20,
+			"Def":0,
+			"Hp":20,
+			"cost":4,
+			"movement":0,
+			"Atkrange":3,
+			"Type":"Object"
+		}
+	],
+
+    "Trap":[
+		{
+			"name":"Trap",
+			"AbilityName":"-",
+			"AbilityIndex":0,
+			"SkillName1":"-",
+			"SkillIndex1":0,
+			"SkillName2":"-",
+			"SkillIndex2":0,
+			"Atk":5,
+			"Def":0,
+			"Hp":0,
+			"cost":0,
+			"movement":0,
+			"Atkrange":0,
+			"Type":"Filed"
+		}
+	]
+}
+/*Note!!!
+	1.use name to detect sprite in object
+	2.value Index is key to detect in game play and Index 0 is Null 
+	3.struct belong to unit.cs
+*/
