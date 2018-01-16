@@ -11,7 +11,7 @@ public class HexGrid : MonoBehaviour {
 
     public HexCell cellPrefab;
     HexCell[] cells;
-
+    
     int hexFilterSize = 0;
     public HexFilter hexFilterPrefab;
     HexFilter hexFilter;
@@ -55,14 +55,9 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-<<<<<<< HEAD
         cell.setType(i % 4);
         cell.setMap(maps[cell.mapType]);
-=======
-        cell.color = defaultColor;
-        cell.GetComponent<SpriteRenderer>().sprite = maps[i % 4];
-        DontDestroyOnLoad(this.transform);
->>>>>>> 192018
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update () {
@@ -83,7 +78,7 @@ public class HexGrid : MonoBehaviour {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(inputRay, out hit);
-        return hit.point;
+        return HexCoordinates.cubeToOffset(HexCoordinates.FromPosition(hit.point));
     }
 
     void TouchCell (Vector3 position) {

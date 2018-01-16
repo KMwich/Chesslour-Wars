@@ -24,5 +24,6 @@ public class HexFilter : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.GetComponent<SpriteRenderer>().sprite = filter;
+        cell.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,0.5f);
     }
 }
