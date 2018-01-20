@@ -78,23 +78,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\script\ChangeToScene.cs" />
+    <Compile Include="Assets\Resources\script\chess.cs" />
     <Compile Include="Assets\Resources\script\database script\unit.cs" />
     <Compile Include="Assets\Resources\script\database script\unit_database.cs" />
     <Compile Include="Assets\Resources\script\database script\unitStructure.cs" />
-    <Compile Include="Assets\Resources\script\HexCell.cs" />
-    <Compile Include="Assets\Resources\script\HexCoordinates.cs" />
-    <Compile Include="Assets\Resources\script\HexCoordinatesDrawer.cs" />
-    <Compile Include="Assets\Resources\script\HexFilter.cs" />
-    <Compile Include="Assets\Resources\script\HexGrid.cs" />
-    <Compile Include="Assets\Resources\script\HexMesh.cs" />
-    <Compile Include="Assets\Resources\script\HexMetrics.cs" />
+    <Compile Include="Assets\Resources\script\GameManager.cs" />
+    <Compile Include="Assets\Resources\script\map\HexCell.cs" />
+    <Compile Include="Assets\Resources\script\map\HexCoordinates.cs" />
+    <Compile Include="Assets\Resources\script\map\HexCoordinatesDrawer.cs" />
+    <Compile Include="Assets\Resources\script\map\HexFilter.cs" />
+    <Compile Include="Assets\Resources\script\map\HexGrid.cs" />
+    <Compile Include="Assets\Resources\script\map\HexMesh.cs" />
+    <Compile Include="Assets\Resources\script\map\HexMetrics.cs" />
+    <Compile Include="Assets\Resources\script\select scene\ChangeToScene.cs" />
     <Compile Include="Assets\Resources\script\select scene\GameStatus.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printAtkType.cs" />
     <Compile Include="Assets\Resources\script\select scene\printCoin.cs" />
-    <Compile Include="Assets\Resources\script\select scene\printText.cs" />
-    <Compile Include="Assets\Resources\script\select scene\printText2.cs" />
-    <Compile Include="Assets\Resources\script\select scene\printText3.cs" />
-    <Compile Include="Assets\Resources\script\select scene\printText4.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printObjType.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printSupType.cs" />
+    <Compile Include="Assets\Resources\script\select scene\printTrapType.cs" />
     <Compile Include="Assets\Resources\script\select scene\switchScroll.cs" />
   </ItemGroup>
   <ItemGroup>

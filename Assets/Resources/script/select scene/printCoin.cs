@@ -7,11 +7,11 @@ public class printCoin : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        gameObject.GetComponent<Text>().text = "" + GameStatus.coin + "/18";
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        gameObject.GetComponent<Text>().text = "" + GameStatus.coin + "/18";
+    }
 }

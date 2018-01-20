@@ -144,8 +144,3 @@
 		}
 	]
 }
-/*Note!!!
-	1.use name to detect sprite in object
-	2.value Index is key to detect in game play and Index 0 is Null 
-	3.struct belong to unit.cs
-*/

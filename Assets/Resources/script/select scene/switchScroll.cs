@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class switchScroll : MonoBehaviour {
 
-    private List<GameObject> planels;
+    private List<GameObject> selectPlanels;
     private int viewIndex;
 
 	// Use this for initialization
-	void Start () {
-        planels = new List<GameObject>();
+	void Awake () {
+        selectPlanels = new List<GameObject>();
         foreach(Transform t in transform)
         {
-            planels.Add(t.gameObject);
+            selectPlanels.Add(t.gameObject);
             t.gameObject.SetActive(false);
         }
-        planels[0].SetActive(true);
-	}
+        selectPlanels[0].SetActive(true);
+        viewIndex = 0;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,10 +28,11 @@ public class switchScroll : MonoBehaviour {
     {
         if (index == viewIndex)
             return;
-        if (index < 0 || index >= planels.Count)
+        if (index < 0 || index >= selectPlanels.Count)
             return;
-        planels[viewIndex].SetActive(false);
+
+        selectPlanels[viewIndex].SetActive(false);
         viewIndex = index;
-        planels[viewIndex].SetActive(true);
+        selectPlanels[viewIndex].SetActive(true);
     }
 }

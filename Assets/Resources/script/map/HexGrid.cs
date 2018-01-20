@@ -51,18 +51,18 @@ public class HexGrid : MonoBehaviour {
         position.y = - z - ((float) i % 4 / 4f );
         position.z = (z + x * 0.5f - x / 2) * (HexMetrics.innerRadius * 2f);
 
-        HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
+        HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab); //cell is referent to cells[]
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
         cell.setType(i % 4);
         cell.setMap(maps[cell.mapType]);
-        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update () {
         if (Input.GetMouseButtonUp(0)) {
             HandleInput();
+            //Debug.Log("x is" + getTouchCoordinate().x + "y is" + getTouchCoordinate().y + "z is" + getTouchCoordinate().z);
         }
     }
 
@@ -74,6 +74,7 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    //use send position cross function
     public Vector3 getTouchCoordinate() {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
