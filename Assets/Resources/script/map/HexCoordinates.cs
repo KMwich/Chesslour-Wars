@@ -78,4 +78,7 @@ public struct HexCoordinates {
         return vector;
     }
 
+    public static int cubeDeistance (HexCoordinates a, HexCoordinates b) {
+        return Mathf.Max(Mathf.Abs(a.X - b.X), Mathf.Abs(a.Y - b.Y), Mathf.Abs(a.Z - b.Z));
+    }
 }

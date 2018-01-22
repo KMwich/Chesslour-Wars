@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HexGrid : MonoBehaviour {
+public class HexGrid : Photon.MonoBehaviour {
 
-    public int width = 6;
-    public int height = 6;
-
-    public Color defaultColor = Color.clear;
-    public Color touchedColor = Color.magenta;
+    private PhotonView PhotonView;
+    private Vector3 TargetPosition;
+    private Quaternion TargetRotation;
+    int width = 6;
+    int height = 6;
 
     public HexCell cellPrefab;
     HexCell[] cells;
     
     int hexFilterSize = 0;
+    HexCoordinates hexFilterCoordinate;
     public HexFilter hexFilterPrefab;
     HexFilter hexFilter;
 
@@ -25,6 +26,9 @@ public class HexGrid : MonoBehaviour {
         hexFilter = null;
         hexMesh = GetComponentInChildren<HexMesh>();
         maps = Resources.LoadAll<Sprite>("sprite/map");
+        PhotonView = GetComponent<PhotonView>();
+
+        Debug.Log(hexMesh.name);
 
         cells = new HexCell[height * width];
 
@@ -60,12 +64,17 @@ public class HexGrid : MonoBehaviour {
     }
 
     void Update () {
-        if (Input.GetMouseButtonUp(0)) {
-            HandleInput();
-            //Debug.Log("x is" + getTouchCoordinate().x + "y is" + getTouchCoordinate().y + "z is" + getTouchCoordinate().z);
+        
+        //if (Input.GetMouseButtonUp(0)) {
+        //    PhotonView.RPC("HandleInput", PhotonTargets.All);
+        //    //HandleInput();
+        //    //Debug.Log("x is" + getTouchCoordinate().x + "y is" + getTouchCoordinate().y + "z is" + getTouchCoordinate().z);
+        //}
+        if (hexFilterSize != 0){
+            setHexFilter(hexFilterCoordinate,hexFilterSize);
         }
     }
-
+    [PunRPC]
     void HandleInput () {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -75,25 +84,26 @@ public class HexGrid : MonoBehaviour {
     }
 
     //use send position cross function
-    public Vector3 getTouchCoordinate() {
+    public HexCoordinates getTouchCoordinate() {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(inputRay, out hit);
-        return HexCoordinates.cubeToOffset(HexCoordinates.FromPosition(hit.point));
+        return HexCoordinates.FromPosition(hit.point);
     }
 
     void TouchCell (Vector3 position) {
         position = transform.InverseTransformPoint(position);
-        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        setHexFilter(coordinates, 1);
+        HexCoordinates coordinate = HexCoordinates.FromPosition(position);
+        hexFilterSize = 1;
+        hexFilterCoordinate = coordinate;
     }
 
-    void setHexFilter(HexCoordinates coordinate, int size) {
+    public void setHexFilter(HexCoordinates coordinate, int size) {
         if (hexFilter != null) clearHexFilter();
         hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
         hexFilter.transform.SetParent(transform, false);
         hexFilter.setHexFilterSize(size);
-        hexFilterSize = size;
+        
 
         for (int i = 0, x = -size; x <= size; x++) {
             int iX = x + coordinate.X;
@@ -112,11 +122,22 @@ public class HexGrid : MonoBehaviour {
                 i++;
             }
         }
-
     }
 
-    void clearHexFilter() {
+    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.isWriting) {
+            stream.SendNext(hexFilterCoordinate);
+            stream.SendNext(hexFilterSize);
+        } else {
+            hexFilterCoordinate = (HexCoordinates)stream.ReceiveNext();
+            hexFilterSize = (int)stream.ReceiveNext();
+        }
+    }
+
+    public void clearHexFilter() {
         Destroy(hexFilter.gameObject);
+        hexFilterSize = 0;
+        
     }
 
 }

@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chesslour-Wars", "Chesslour-Wars.csproj", "{C32D981D-A23A-CA1A-DC90-7C550FF1DCDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chesslour-Wars.Plugins", "Chesslour-Wars.Plugins.csproj", "{0D2B992C-E7E1-8C0B-B2DE-240CC3CBA961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chesslour-Wars.Editor", "Chesslour-Wars.Editor.csproj", "{620719C2-2754-5F6F-0125-26538F14B721}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{C32D981D-A23A-CA1A-DC90-7C550FF1DCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C32D981D-A23A-CA1A-DC90-7C550FF1DCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C32D981D-A23A-CA1A-DC90-7C550FF1DCDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D2B992C-E7E1-8C0B-B2DE-240CC3CBA961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2B992C-E7E1-8C0B-B2DE-240CC3CBA961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2B992C-E7E1-8C0B-B2DE-240CC3CBA961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2B992C-E7E1-8C0B-B2DE-240CC3CBA961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620719C2-2754-5F6F-0125-26538F14B721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620719C2-2754-5F6F-0125-26538F14B721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620719C2-2754-5F6F-0125-26538F14B721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620719C2-2754-5F6F-0125-26538F14B721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
