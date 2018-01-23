@@ -66,7 +66,9 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     private void RPC_CreatePlayer()
     {
-        float randomValue = Random.Range(0f, 5f);
-        PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
+        //float randomValue = Random.Range(0f, 5f);
+        Quaternion euler = Quaternion.Euler(90, 0, 0);
+        print("OK");
+        PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), new Vector3(0, 0, 1), euler, 0);
     }
 }

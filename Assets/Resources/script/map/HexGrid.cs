@@ -125,12 +125,15 @@ public class HexGrid : Photon.MonoBehaviour {
     }
 
     private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.isWriting) {
-            stream.SendNext(hexFilterCoordinate);
-            stream.SendNext(hexFilterSize);
-        } else {
-            hexFilterCoordinate = (HexCoordinates)stream.ReceiveNext();
-            hexFilterSize = (int)stream.ReceiveNext();
+        if (stream.isWriting)
+        {
+            if (hexFilter != null)
+                stream.SendNext(hexFilter.transform.position);
+        }
+        else
+        {
+            if (hexFilter != null)
+                TargetPosition = (Vector3)stream.ReceiveNext();
         }
     }
 
