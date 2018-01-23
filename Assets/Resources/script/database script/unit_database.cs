@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class unit_database : MonoBehaviour {
 
-    public unit units;
+    public static unit units;
 
     private void Awake()
     {
