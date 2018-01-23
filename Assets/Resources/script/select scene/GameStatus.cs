@@ -11,8 +11,6 @@ public class GameStatus : MonoBehaviour {
     public static int trapType=0;
     public static int coin=18;
     public static int countTrap=0;
-    public static List<int> mainTypeUnit = new List<int>();//send to map
-    public static List<int> subTypeUnit = new List<int>();//send to map
 
     private bool sellSucess;
     
@@ -35,31 +33,31 @@ public class GameStatus : MonoBehaviour {
         //slot.Add(Instantiate(slotPrefab.gameObject));
         //slot[slotCount].transform.SetParent(slotPanel.transform);
         Sprite img;
-        if (mainTypeUnit[slotCount] == 0)
+        if (GameManager.mainTypeUnit[slotCount] == 0)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Attacker[subTypeUnit[slotCount]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(slotPanel.transform);
         }
-        else if (mainTypeUnit[slotCount] == 1)
+        else if (GameManager.mainTypeUnit[slotCount] == 1)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Supporter[subTypeUnit[slotCount]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(slotPanel.transform);
         }
-        else if (mainTypeUnit[slotCount] == 2)
+        else if (GameManager.mainTypeUnit[slotCount] == 2)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Sturture[subTypeUnit[slotCount]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(slotPanel.transform);
         }
-        else if (mainTypeUnit[slotCount] == 3)
+        else if (GameManager.mainTypeUnit[slotCount] == 3)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Trap[subTypeUnit[slotCount]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(slotPanel.transform);
         }
@@ -120,7 +118,7 @@ public class GameStatus : MonoBehaviour {
             }
 
             //send to map screen as referent index unit_database
-            mainTypeUnit.Add(Type);//contain index [0-3] only!!!
+            GameManager.mainTypeUnit.Add(Type);//contain index [0-3] only!!!
         }
     }
 
@@ -129,7 +127,7 @@ public class GameStatus : MonoBehaviour {
         if (sellSucess)
         {
             //send to map screen as referent index each aerry in unit_database
-            subTypeUnit.Add(subType);
+            GameManager.subTypeUnit.Add(subType);
             updateUnit();
         }
     }
