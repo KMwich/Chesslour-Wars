@@ -1,11 +1,2 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: initializeCompiler
-Cmd: preprocess
-  insize=1895 outsize=1087 ok=1
-Cmd: preprocess
-  error: 2 plat 20 at (35): Unexpected identifier "UNITY_INSTANCING_BUFFER_START". Expected one of: typedef const void inline uniform nointerpolation extern shared static volatile row_major column_major struct or a user-defined type
-  insize=1540 outsize=712 ok=0
-Cmd: compileSnippet
-  api=4 type=0 insize=1554 outsize=690 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME ok=1
-Cmd: compileSnippet
-  api=4 type=1 insize=1554 outsize=298 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME ok=1

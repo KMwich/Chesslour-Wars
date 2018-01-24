@@ -19,13 +19,15 @@ public class GameStatus : MonoBehaviour {
     public GameObject panel;
     public GameObject slotPrefab;
 
-    private GameObject slotPanel;
+    private GameObject UnitSlotPanel;
+    private GameObject TrapSlotPanel;
     private List<GameObject> slot = new List<GameObject>();
     private int slotCount = 0;
 
     private void Start()
     {
-        slotPanel = panel.transform.Find("content").gameObject;
+        UnitSlotPanel = panel.transform.Find("unit").gameObject;
+        TrapSlotPanel = panel.transform.Find("trap").gameObject;
     }
 
     private void updateUnit()
@@ -38,28 +40,28 @@ public class GameStatus : MonoBehaviour {
             slot.Add(Instantiate(slotPrefab.gameObject));
             img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(slotPanel.transform);
+            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
         }
         else if (GameManager.mainTypeUnit[slotCount] == 1)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(slotPanel.transform);
+            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
         }
         else if (GameManager.mainTypeUnit[slotCount] == 2)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(slotPanel.transform);
+            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
         }
         else if (GameManager.mainTypeUnit[slotCount] == 3)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(slotPanel.transform);
+            slot[slotCount].transform.SetParent(TrapSlotPanel.transform);
         }
         slotCount++;
     }
