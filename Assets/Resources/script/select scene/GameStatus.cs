@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameStatus : MonoBehaviour {
 
+    //value send to screen
     public static int damageType=0;
     public static int supportType=0;
     public static int objectType=0;
@@ -15,14 +16,14 @@ public class GameStatus : MonoBehaviour {
     private bool sellSucess;
     
     //----------------------------------------------------------------------//
-    //inventory
+    //inventory system value
     public GameObject panel;
     public GameObject slotPrefab;
 
     private GameObject UnitSlotPanel;
     private GameObject TrapSlotPanel;
     private List<GameObject> slot = new List<GameObject>();
-    private int slotCount = 0;
+    public static int slotCount = 0;
 
     private void Start()
     {
@@ -132,5 +133,23 @@ public class GameStatus : MonoBehaviour {
             GameManager.subTypeUnit.Add(subType);
             updateUnit();
         }
+    }
+
+    public void ReOnClick()
+    {
+        foreach(GameObject obj in slot)
+        {
+            Destroy(obj);
+        }
+        slot.Clear();
+        GameManager.mainTypeUnit.Clear();
+        GameManager.subTypeUnit.Clear();
+        slotCount = 0;
+        damageType = 0;
+        supportType = 0;
+        objectType = 0;
+        trapType = 0;
+        coin = 18;
+        countTrap = 0;
     }
 }

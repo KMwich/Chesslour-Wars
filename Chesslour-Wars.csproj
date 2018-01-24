@@ -177,6 +177,7 @@
     <Compile Include="Assets\Resources\script\select scene\printObjType.cs" />
     <Compile Include="Assets\Resources\script\select scene\printSupType.cs" />
     <Compile Include="Assets\Resources\script\select scene\printTrapType.cs" />
+    <Compile Include="Assets\Resources\script\select scene\slot.cs" />
     <Compile Include="Assets\Resources\script\select scene\switchScroll.cs" />
     <Compile Include="Assets\Resources\script\unit\Unit.cs" />
     <Compile Include="Assets\Resources\script\UnitManager.cs" />
