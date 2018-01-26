@@ -15,6 +15,10 @@ public class Unit : Photon.MonoBehaviour {
     // Use this for initialization
     void Awake () {
         PhotonView = GetComponent<PhotonView>();
+        Vector3 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
+        gameObject.GetComponent<BoxCollider2D>().size = S;
+        gameObject.GetComponent<BoxCollider2D>().offset = new Vector3((S.x / 2), 0);
+
     }
 
     // Update is called once per frame
@@ -23,6 +27,10 @@ public class Unit : Photon.MonoBehaviour {
         {
             if (Input.GetMouseButtonUp(0))
             {
+                Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Physics.Raycast(inputRay, out hit);
+                Debug.Log(hit.point);
                 if (move)
                 {
                     int dist = HexCoordinates.cubeDeistance(coordinate, UnitManager.Instance.HexGrid.getTouchCoordinate());
@@ -65,9 +73,4 @@ public class Unit : Photon.MonoBehaviour {
             TargetRotation = (Quaternion)stream.ReceiveNext();
         }
     }
-
-    public void asd() {
-        Debug.Log( this.GetComponentInParent<UnitBar>().name);
-    }
-
 }

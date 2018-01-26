@@ -328,6 +328,7 @@
     <Compile Include="Assets\Resources\script\map\HexGrid.cs" />
     <Compile Include="Assets\Resources\script\map\HexMesh.cs" />
     <Compile Include="Assets\Resources\script\map\HexMetrics.cs" />
+    <Compile Include="Assets\Resources\script\map\JsonMap.cs" />
     <Compile Include="Assets\Resources\script\select scene\ChangeToScene.cs" />
     <Compile Include="Assets\Resources\script\select scene\GameStatus.cs" />
     <Compile Include="Assets\Resources\script\select scene\printAtkType.cs" />
