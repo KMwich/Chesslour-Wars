@@ -1,0 +1,11 @@
+{
+   "Index":[
+      1,2,3
+   ],
+   "Name":[
+      "Green Field","Deep Jungle","Ocean Island"
+   ],
+   "SpritePath_img":[
+      "sprite/mapSelect/GreenField","sprite/mapSelect/GreenField","sprite/mapSelect/DeepOcean"
+   ]
+}

@@ -42,6 +42,8 @@ public class GameStatus : MonoBehaviour {
             img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
+            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+
         }
         else if (GameManager.mainTypeUnit[slotCount] == 1)
         {
@@ -49,6 +51,7 @@ public class GameStatus : MonoBehaviour {
             img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
+            slot[slotCount].GetComponent<slot>().UnitCoin = 3;
         }
         else if (GameManager.mainTypeUnit[slotCount] == 2)
         {
@@ -56,6 +59,8 @@ public class GameStatus : MonoBehaviour {
             img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
+            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+
         }
         else if (GameManager.mainTypeUnit[slotCount] == 3)
         {
@@ -63,6 +68,8 @@ public class GameStatus : MonoBehaviour {
             img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[slotCount]].SpritePath_img);
             slot[slotCount].GetComponent<Image>().sprite = img;
             slot[slotCount].transform.SetParent(TrapSlotPanel.transform);
+            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+
         }
         slotCount++;
     }

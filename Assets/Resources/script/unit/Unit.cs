@@ -7,8 +7,6 @@ public class Unit : Photon.MonoBehaviour {
  //   public HexGrid map;
     int attackRange = 1;
     bool move = false;
-    private Vector3 TargetPosition;
-    private Quaternion TargetRotation;
     private PhotonView PhotonView;
 
     // Use this for initialization
@@ -61,17 +59,4 @@ public class Unit : Photon.MonoBehaviour {
         transform.localPosition = position;
     }
 
-    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            TargetPosition = (Vector3)stream.ReceiveNext();
-            TargetRotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
 }

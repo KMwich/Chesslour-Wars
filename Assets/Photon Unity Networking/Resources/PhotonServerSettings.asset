@@ -45,4 +45,6 @@ MonoBehaviour:
   - clearHexFilter
   - getTouchCoordinate
   - TouchCell
+  - UpdatePanel
+  - MapChange
   DisableAutoOpenWizard: 1
