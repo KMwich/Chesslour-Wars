@@ -11,10 +11,10 @@ public class ShowMap : MonoBehaviour {
     }
 
 
-    //private void Awake()
-    //{
-    //    Map.GetComponent<Image>().sprite = Resources.Load<Sprite>(MapSelect.Instance.MapLists.SpritePath_img[DDOL.mapIndex - 1]);
-    //    print(DDOL.mapIndex - 1);
-    //    print(MapSelect.Instance.MapLists.SpritePath_img[DDOL.mapIndex - 1]);
-    //}
+    private void Awake()
+    {
+        Map.GetComponent<Image>().sprite = Resources.Load<Sprite>(MapSelect.Instance.MapLists.SpritePath_img[DDOL.mapIndex - 1]);
+        print(DDOL.mapIndex - 1);
+        print(MapSelect.Instance.MapLists.SpritePath_img[DDOL.mapIndex - 1]);
+    }
 }

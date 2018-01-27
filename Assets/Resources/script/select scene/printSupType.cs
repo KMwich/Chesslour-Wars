@@ -12,6 +12,6 @@ public class printSupType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.GetComponent<Text>().text = "" + GameStatus.supportType;
+        gameObject.GetComponent<Text>().text = "" + GameStatus.type[1];
     }
 }

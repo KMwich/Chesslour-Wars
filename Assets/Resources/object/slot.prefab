@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 224711973356742654}
   - component: {fileID: 222383349300927950}
   - component: {fileID: 114699475429288358}
-  - component: {fileID: 114488496034661766}
   - component: {fileID: 114636799644603498}
+  - component: {fileID: 114656805687813308}
   m_Layer: 5
   m_Name: slot
   m_TagString: Untagged
@@ -30,21 +30,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114488496034661766
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1540863365043552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbae0db1d40926f42b07cf128b5b10fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indexSlot: 0
-  MainTyepUnit: 0
-  UnitCoin: 0
-  box: {fileID: 0}
 --- !u!114 &114636799644603498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +69,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114488496034661766}
+      - m_Target: {fileID: 114656805687813308}
         m_MethodName: OnclickDelete
         m_Mode: 1
         m_Arguments:
@@ -97,6 +82,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114656805687813308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1540863365043552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7209cd64b954b224f927332a8c61f1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  referentIndex: 0
+  mainIndex: 0
+  UnitCoin: 0
 --- !u!114 &114699475429288358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,7 +115,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7cecb5b0b4a2f00478bc97091e7a0401, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

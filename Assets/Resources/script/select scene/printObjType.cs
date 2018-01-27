@@ -12,6 +12,6 @@ public class printObjType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.GetComponent<Text>().text = "" + GameStatus.objectType;
+        gameObject.GetComponent<Text>().text = "" + GameStatus.type[2];
     }
 }

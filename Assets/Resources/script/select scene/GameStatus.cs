@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public class GameStatus : MonoBehaviour {
 
     //value send to screen
-    public static int damageType=0;
-    public static int supportType=0;
-    public static int objectType=0;
-    public static int trapType=0;
+    public static int[] type = { 0, 0, 0, 0 };
     public static int coin=18;
-    public static int countTrap=0;
 
     private bool sellSucess;
     
@@ -22,8 +18,8 @@ public class GameStatus : MonoBehaviour {
 
     private GameObject UnitSlotPanel;
     private GameObject TrapSlotPanel;
-    private List<GameObject> slot = new List<GameObject>();
-    public static int slotCount = 0;
+    private static List<GameObject> slot = new List<GameObject>();
+    private int sold;
 
     private void Start()
     {
@@ -33,58 +29,85 @@ public class GameStatus : MonoBehaviour {
 
     private void updateUnit()
     {
-        //slot.Add(Instantiate(slotPrefab.gameObject));
-        //slot[slotCount].transform.SetParent(slotPanel.transform);
         Sprite img;
-        if (GameManager.mainTypeUnit[slotCount] == 0)
+        int index = GameManager.mainTypeUnit.Count-1;
+        if (GameManager.mainTypeUnit[index] == 0)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[slotCount]].SpritePath_img);
-            slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
-            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+            slot[index].transform.SetParent(UnitSlotPanel.transform);
+            img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[index]].SpritePath_img);
+            slot[index].GetComponent<Image>().sprite = img;
 
+            //set value to object slot
+            slot[index].GetComponent<slot2>().referentIndex = index;
+            slot[index].GetComponent<slot2>().mainIndex = 0;
+            slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        else if (GameManager.mainTypeUnit[slotCount] == 1)
+        else if (GameManager.mainTypeUnit[index] == 1)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[slotCount]].SpritePath_img);
-            slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
-            slot[slotCount].GetComponent<slot>().UnitCoin = 3;
-        }
-        else if (GameManager.mainTypeUnit[slotCount] == 2)
-        {
-            slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[slotCount]].SpritePath_img);
-            slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(UnitSlotPanel.transform);
-            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+            slot[index].transform.SetParent(UnitSlotPanel.transform);
+            img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[index]].SpritePath_img);
+            slot[index].GetComponent<Image>().sprite = img;
 
+            //set value to object slot
+            slot[index].GetComponent<slot2>().referentIndex = index;
+            slot[index].GetComponent<slot2>().mainIndex = 1;
+            slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        else if (GameManager.mainTypeUnit[slotCount] == 3)
+        else if (GameManager.mainTypeUnit[index] == 2)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
-            img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[slotCount]].SpritePath_img);
-            slot[slotCount].GetComponent<Image>().sprite = img;
-            slot[slotCount].transform.SetParent(TrapSlotPanel.transform);
-            slot[slotCount].GetComponent<slot>().UnitCoin = 2;
+            slot[index].transform.SetParent(UnitSlotPanel.transform);
+            img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[index]].SpritePath_img);
+            slot[index].GetComponent<Image>().sprite = img;
 
+            //set value to object slot
+            slot[index].GetComponent<slot2>().referentIndex = index;
+            slot[index].GetComponent<slot2>().mainIndex = 2;
+            slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        slotCount++;
+        else if (GameManager.mainTypeUnit[index] == 3)
+        {
+            slot.Add(Instantiate(slotPrefab.gameObject));
+            slot[index].transform.SetParent(TrapSlotPanel.transform);
+            img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[index]].SpritePath_img);
+            slot[index].GetComponent<Image>().sprite = img;
+
+            //set value to object slot
+            slot[index].GetComponent<slot2>().referentIndex = index;
+            slot[index].GetComponent<slot2>().mainIndex = 3;
+            slot[index].GetComponent<slot2>().UnitCoin = sold;
+        }
     }
 
+    public static void deleteUnit(int x)
+    {
+        coin += slot[x].GetComponent<slot2>().UnitCoin;
+        type[slot[x].GetComponent<slot2>().mainIndex]--;
 
+        int temp = x;
+        Destroy(slot[x]);
+        slot.RemoveAt(x);
+        GameManager.mainTypeUnit.RemoveAt(x);
+        GameManager.subTypeUnit.RemoveAt(x);
+        for(int i = temp;i<slot.Count;i++)
+        {
+            slot[i].GetComponent<slot2>().referentIndex--;
+        }
+        print(GameManager.mainTypeUnit.Count);
+    }
 
     //--------------------------------------------------------
     //update value form button
     public void SetCoinOnClick(int sellcoin)
     {
         //use in this screen
-        if(coin - sellcoin >= 0)
+        if (coin - sellcoin >= 0)
         {
             coin -= sellcoin;
             sellSucess = true;
+            sold = sellcoin;
         }
         else
         {
@@ -94,9 +117,8 @@ public class GameStatus : MonoBehaviour {
 
     public void SetTrapOnclick()
     {
-        if(countTrap + 1 <= 5)
+        if (type[3] + 1 <= 5)
         {
-            countTrap++;
             sellSucess = true;
         }
         else
@@ -109,24 +131,7 @@ public class GameStatus : MonoBehaviour {
     {
         if (sellSucess)
         {
-            //use in this screen
-            if (Type == 0)
-            {
-                damageType++;
-            }
-            else if (Type == 1)
-            {
-                supportType++;
-            }
-            else if (Type == 2)
-            {
-                objectType++;
-            }
-            else if (Type == 3)
-            {
-                trapType++;
-            }
-
+            type[Type]++;
             //send to map screen as referent index unit_database
             GameManager.mainTypeUnit.Add(Type);//contain index [0-3] only!!!
         }
@@ -144,19 +149,16 @@ public class GameStatus : MonoBehaviour {
 
     public void ReOnClick()
     {
-        foreach(GameObject obj in slot)
+        foreach (GameObject obj in slot)
         {
             Destroy(obj);
         }
-        slot.Clear();
         GameManager.mainTypeUnit.Clear();
         GameManager.subTypeUnit.Clear();
-        slotCount = 0;
-        damageType = 0;
-        supportType = 0;
-        objectType = 0;
-        trapType = 0;
+        type[0] = 0;
+        type[1] = 0;
+        type[2] = 0;
+        type[3] = 0;
         coin = 18;
-        countTrap = 0;
     }
 }

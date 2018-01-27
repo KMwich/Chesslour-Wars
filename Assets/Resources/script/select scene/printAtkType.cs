@@ -12,6 +12,6 @@ public class printAtkType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetComponent<Text>().text = "" + GameStatus.damageType;
+        GetComponent<Text>().text = "" + GameStatus.type[0];
     }
 }

@@ -12,6 +12,6 @@ public class printTrapType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.GetComponent<Text>().text = "" + GameStatus.countTrap + "/5";
+        gameObject.GetComponent<Text>().text = "" + GameStatus.type[3] + "/5";
     }
 }
