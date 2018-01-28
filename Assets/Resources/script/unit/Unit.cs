@@ -2,34 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : Photon.MonoBehaviour {
+public class Unit : Photon.MonoBehaviour
+{
     HexCoordinates coordinate;
- //   public HexGrid map;
+    //   public HexGrid map;
     int attackRange = 1;
     bool move = false;
+    private Vector3 TargetPosition;
+    private Quaternion TargetRotation;
     private PhotonView PhotonView;
+    
+    private Unit Instance;
 
     // Use this for initialization
-    void Awake () {
-        int x = Random.Range(0, 6);
-        int z = Random.Range(0, 6);
-
+    void Awake()
+    {
+        Instance = this;
         PhotonView = GetComponent<PhotonView>();
+        Vector3 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
+        gameObject.GetComponent<BoxCollider2D>().size = S;
+        gameObject.GetComponent<BoxCollider2D>().offset = new Vector3((S.x / 2), 0);
 
-        Vector3 position;
-        position.x = x;
-        position.y = 0;
-        position.z = z;
-
-        setUnitPosition(position);
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (PhotonView.isMine)
         {
             if (Input.GetMouseButtonUp(0))
             {
+                Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Physics.Raycast(inputRay, out hit);
+                Debug.Log(hit.point);
                 if (move)
                 {
                     int dist = HexCoordinates.cubeDeistance(coordinate, UnitManager.Instance.HexGrid.getTouchCoordinate());
@@ -48,15 +54,46 @@ public class Unit : Photon.MonoBehaviour {
                 move = false;
             }
         }
-        
+
     }
 
-    void setUnitPosition(Vector3 position) {
+    public void setUnitPosition(Vector3 position)
+    {
         coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
         position.x = position.x * (HexMetrics.outerRadius * 1.5f);
-        position.y = 2;
-        position.z = (position.z + position.x * 0.5f - position.x / 2) * (HexMetrics.innerRadius * 2f);
+        position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f); 
+        position.z = transform.localPosition.z;
         transform.localPosition = position;
     }
 
+    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            TargetPosition = (Vector3)stream.ReceiveNext();
+            TargetRotation = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    private void OnMouseDrag() {
+        Vector3 dist = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 curPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist.z);
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(curPos);
+        transform.position = worldPos;
+    }
+
+    private void OnMouseUp() {
+        HexCoordinates hexPosition = GetComponentInParent<UnitBar>()._hexGrid.getTouchCoordinate();
+        Vector3 position = HexCoordinates.cubeToOffset(hexPosition);
+        setUnitPosition(position);
+    }
+
+    public void setUnitSprite(string path) {
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(path);
+    }
 }
