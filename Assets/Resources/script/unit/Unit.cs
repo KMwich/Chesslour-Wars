@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : Photon.MonoBehaviour {
+public class Unit : Photon.MonoBehaviour
+{
     HexCoordinates coordinate;
- //   public HexGrid map;
+    //   public HexGrid map;
     int attackRange = 1;
     bool move = false;
     private Vector3 TargetPosition;
@@ -12,8 +13,14 @@ public class Unit : Photon.MonoBehaviour {
     private PhotonView PhotonView;
     public bool canDrag = true;
 
+    private Unit Instance;
+
+
+
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
+        Instance = this;
         PhotonView = GetComponent<PhotonView>();
         Vector3 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
         gameObject.GetComponent<BoxCollider2D>().size = S;
@@ -22,7 +29,8 @@ public class Unit : Photon.MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (PhotonView.isMine)
         {
             if (Input.GetMouseButtonUp(0))
@@ -49,10 +57,11 @@ public class Unit : Photon.MonoBehaviour {
                 move = false;
             }
         }
-        
+
     }
 
-    public void setUnitPosition(Vector3 position) {
+    public void setUnitPosition(Vector3 position)
+    {
         coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
         position.x = position.x * (HexMetrics.outerRadius * 1.5f);
         position.y = 2;
@@ -73,4 +82,5 @@ public class Unit : Photon.MonoBehaviour {
             TargetRotation = (Quaternion)stream.ReceiveNext();
         }
     }
+
 }

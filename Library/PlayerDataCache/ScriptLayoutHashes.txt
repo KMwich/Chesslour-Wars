@@ -30,7 +30,7 @@ b027659a510ae8d01d6d5f31baf9827a Assembly-CSharp.dll:.PhotonStatsGui
 4b668d37c3140d0467e10205a66c678f Assembly-CSharp.dll:.HexCell
 28b9635dada29d5334975a74e5429ae3 Assembly-CSharp.dll:ExitGames.UtilityScripts.TextToggleIsOnTransition
 7d0aa0f64a823db9982e4fed92870a4c Assembly-CSharp.dll:.ResizePanel
-d8381fce8a4e40e9f5f579857ac7d363 Assembly-CSharp.dll:.HexGrid
+7c8dec482df052c6b2700a122f808a0c Assembly-CSharp.dll:.HexGrid
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:ExitGames.UtilityScripts.ButtonInsideScrollList
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.NetworkCullingHandler
 70011ac4c788946b3fde1bd8e7b87b3d Assembly-CSharp.dll:.slot
@@ -140,6 +140,7 @@ c2d15b04283157b00cbdbfaf16c18482 Assembly-CSharp.dll:.PickupItemSyncer
 090584907af2e462994cc893ced507b3 Assembly-CSharp.dll:.PhotonRigidbody2DView
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.OnStartDelete
 1de5b0589e6fb98c8b8d7fcded724e3b Assembly-CSharp.dll:.CullArea
+e1a773d8117bcbc57e01e19d10a8206a Assembly-CSharp.dll:.UnitBar
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PunPlayerScores
 d7c3cc9e6aeec9a00634f6abffbe35e2 Assembly-CSharp.dll:.ConnectAndJoinRandom
 322cb40e1e282f28af980cbef7922a90 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
@@ -165,6 +166,7 @@ e2be0287b586e37a9c957ac9eb1fce65 Assembly-CSharp.dll:.LobbyCanvas
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.FullscreenSprite
 30c6237931168f8b4c2f10a656a47aa8 Assembly-CSharp.dll:.PickupItem
 b9efe2a0d1c9ba7bc46e66a07a897115 Assembly-CSharp.dll:.ServerSettings
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Drag
 e3db0de06ede87e84b88d4a2079f2b57 Assembly-CSharp.dll:ExitGames.UtilityScripts.TextButtonTransition
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.printTrapType
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -186,6 +188,7 @@ df343383b9d2e96226a204a164f3994d Assembly-CSharp.dll:.DragMe
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PointedAtGameObjectInfo
 edd16ecabdbd95bbc4981a22167b0d24 Assembly-CSharp.dll:.UnitManager
 edf1460363ca77944aebc1cd5cb9962f Assembly-CSharp.dll:.HexFilter
+3f117cc7757967f99e736350f2eeeffe Assembly-CSharp.dll:.ShowMap
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CurrentRoomCanvas
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 96d0fbde9fd209878a0a291f82c9bcdd UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -214,7 +217,7 @@ ec0082b40adf3b0930cd87250ffdbf1d Assembly-CSharp.dll:.SupportLogger
 5465eae51985f0cb194548215d2133ec Assembly-CSharp.dll:.ScrollDetailTexture
 d1755adc44fcb9e44c42a5889d35f7a0 Assembly-CSharp.dll:.MoveByKeys
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.QuitOnEscapeOrBack
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Unit
+4e5ea7207c55c11cd62e16921b8c8111 Assembly-CSharp.dll:.Unit
 604f5f55c1cc414f64da1990b36ff015 Assembly-CSharp.dll:.PhotonView
 b2dc25029b6f083ffbbdf9df269f825a Assembly-CSharp.dll:.InRoomChat
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ApplicationManager
