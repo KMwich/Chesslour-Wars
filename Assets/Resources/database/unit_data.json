@@ -1,161 +1,169 @@
 {
 	"Attacker":[
-		{
-			"Name":"Warriror",
-			"SpritePath_img":"sprite/unit/blue/CBwarrior",
-			"AbilityName":"United we stand",
-			"AbilityPath_img":"sprite/SkillAbility/",
-			"Skill1Name":"-",
-			"Skill1Path_img":"sprite/SkillAbility/null",
-			"Skill2Name":"-",
-			"Skill2Path_img":"sprite/SkillAbility/null",
+        {
+            "Name": "Warriror",
+            "SpritePath_img": "sprite/unit/blue/CBwarrior",
+            "SpritePath_img2": "sprite/unit/red/CRwarrior",
+            "AbilityName": "United we stand",
+            "AbilityPath_img": "sprite/SkillAbility/",
+            "Skill1Name": "-",
+            "Skill1Path_img": "sprite/SkillAbility/null",
+            "Skill2Name": "-",
+            "Skill2Path_img": "sprite/SkillAbility/null",
 
-			"Atk":15,
-			"Def":15,
-			"Hp":18,
-			"Cost":2,
-			"Movement":2,
-			"Atkrange":1,
-			"Type":"Infantry"
-		},
+            "Atk": 15,
+            "Def": 15,
+            "Hp": 18,
+            "Cost": 2,
+            "Movement": 2,
+            "Atkrange": 1,
+            "Type": "Infantry"
+        },
 
-		{
-			"Name":"Hunter",
-			"SpritePath_img":"sprite/unit/blue/CBhunter",
-			"AbilityName":"Camouflage",
-			"AbilityPath_img":"sprite/SkillAbility/Camouflage",
-			"Skill1Name":"Spike Trap",
-			"Skill1Path_img":"sprite/SkillAbility/Spike Trap",
-			"Skill2Name":"Zoom",
-			"Skill2Path_img":"sprite/SkillAbility/Zoom",
+        {
+            "Name": "Hunter",
+            "SpritePath_img": "sprite/unit/blue/CBhunter",
+            "SpritePath_img2": "sprite/unit/red/CRhunter",
+            "AbilityName": "Camouflage",
+            "AbilityPath_img": "sprite/SkillAbility/Camouflage",
+            "Skill1Name": "Spike Trap",
+            "Skill1Path_img": "sprite/SkillAbility/Spike Trap",
+            "Skill2Name": "Zoom",
+            "Skill2Path_img": "sprite/SkillAbility/Zoom",
 
-			"Atk":18,
-			"Def":14,
-			"Hp":10,
-			"Cost":3,
-			"Movement":2,
-			"Atkrange":2,
-			"Type":"Infantry"
-		},
+            "Atk": 18,
+            "Def": 14,
+            "Hp": 10,
+            "Cost": 3,
+            "Movement": 2,
+            "Atkrange": 2,
+            "Type": "Infantry"
+        },
 
-		{
-			"Name":"Fire mage",
-			"SpritePath_img":"sprite/unit/blue/CBmage_fire",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"Fire Blast",
-			"Skill1Path_img":"sprite/SkillAbility/Fire Blast",
-			"Skill2Name":"Power Boost",
-			"Skill2Path_img":"sprite/SkillAbility/Power Boost",
+        {
+            "Name": "Fire mage",
+            "SpritePath_img": "sprite/unit/blue/CBmage_fire",
+            "SpritePath_img2": "sprite/unit/red/CRmage_fire",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "Fire Blast",
+            "Skill1Path_img": "sprite/SkillAbility/Fire Blast",
+            "Skill2Name": "Power Boost",
+            "Skill2Path_img": "sprite/SkillAbility/Power Boost",
 
-			"Atk":10,
-			"Def":10,
-			"Hp":10,
-			"Cost":2,
-			"Movement":2,
-			"Atkrange":2,
-			"Type":"Infantry"
-		},
+            "Atk": 10,
+            "Def": 10,
+            "Hp": 10,
+            "Cost": 2,
+            "Movement": 2,
+            "Atkrange": 2,
+            "Type": "Infantry"
+        },
 
-		{
-			"Name":"Ice mage",
-			"SpritePath_img":"sprite/unit/blue/CBmage_ice",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"Freeze Lance",
-			"Skill1Path_img":"sprite/SkillAbility/Freeze Lance",
-			"Skill2Name":"Guard Boost",
-			"Skill2Path_img":"sprite/SkillAbility/Guard Boost",
+        {
+            "Name": "Ice mage",
+            "SpritePath_img": "sprite/unit/blue/CBmage_ice",
+            "SpritePath_img2": "sprite/unit/red/CRmage_ice",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "Freeze Lance",
+            "Skill1Path_img": "sprite/SkillAbility/Freeze Lance",
+            "Skill2Name": "Guard Boost",
+            "Skill2Path_img": "sprite/SkillAbility/Guard Boost",
 
-			"Atk":8,
-			"Def":12,
-			"Hp":12,
-			"Cost":2,
-			"Movement":2,
-			"Atkrange":2,
-			"Type":"Infantry"
-		},
+            "Atk": 8,
+            "Def": 12,
+            "Hp": 12,
+            "Cost": 2,
+            "Movement": 2,
+            "Atkrange": 2,
+            "Type": "Infantry"
+        },
 
-		{
-			"Name":"Wind mage",
-			"SpritePath_img":"sprite/unit/blue/CBmage_wind",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"Heavy Strom",
-			"Skill1Path_img":"sprite/SkillAbility/Heavy Strom",
-			"Skill2Name":"Wind Boost",
-			"Skill2Path_img":"sprite/SkillAbility/Wind Boost",
+        {
+            "Name": "Wind mage",
+            "SpritePath_img": "sprite/unit/blue/CBmage_wind",
+            "SpritePath_img2": "sprite/unit/red/CRmage_wind",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "Heavy Strom",
+            "Skill1Path_img": "sprite/SkillAbility/Heavy Strom",
+            "Skill2Name": "Wind Boost",
+            "Skill2Path_img": "sprite/SkillAbility/Wind Boost",
 
-			"Atk":13,
-			"Def":8,
-			"Hp":8,
-			"Cost":2,
-			"Movement":2,
-			"Atkrange":2,
-			"Type":"Infantry"
-		}
+            "Atk": 13,
+            "Def": 8,
+            "Hp": 8,
+            "Cost": 2,
+            "Movement": 2,
+            "Atkrange": 2,
+            "Type": "Infantry"
+        }
 	],
 
     "Supporter":[
-		{
-			"Name":"Priest",
-			"SpritePath_img":"sprite/unit/blue/CBpriest",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"Heal",
-			"Skill1Path_img":"sprite/SkillAbility/Heal",
-			"Skill2Name":"-",
-			"Skill2Path_img":"sprite/SkillAbility/null",
+        {
+            "Name": "Priest",
+            "SpritePath_img": "sprite/unit/blue/CBpriest",
+            "SpritePath_img2": "sprite/unit/red/CRpriest",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "Heal",
+            "Skill1Path_img": "sprite/SkillAbility/Heal",
+            "Skill2Name": "-",
+            "Skill2Path_img": "sprite/SkillAbility/null",
 
-			"Atk":0,
-			"Def":5,
-			"Hp":15,
-			"Cost":3,
-			"Movement":2,
-			"Atkrange":0,
-			"Type":"Infantry"
-		}
+            "Atk": 0,
+            "Def": 5,
+            "Hp": 15,
+            "Cost": 3,
+            "Movement": 2,
+            "Atkrange": 0,
+            "Type": "Infantry"
+        }
 	],
 
 	"Sturture":[
-		{
-			"Name":"Catapult",
-			"SpritePath_img":"sprite/unit/blue/CBcatapaul",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"-",
-			"Skill1Path_img":"sprite/SkillAbility/null",
-			"Skill2Name":"-",
-			"Skill2Path_img":"sprite/SkillAbility/null",
+        {
+            "Name": "Catapult",
+            "SpritePath_img": "sprite/unit/blue/CBcatapaul",
+            "SpritePath_img2": "sprite/unit/red/CRcatapaul",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "-",
+            "Skill1Path_img": "sprite/SkillAbility/null",
+            "Skill2Name": "-",
+            "Skill2Path_img": "sprite/SkillAbility/null",
 
-			"Atk":20,
-			"Def":0,
-			"Hp":20,
-			"Cost":4,
-			"Movement":0,
-			"Atkrange":3,
-			"Type":"Object"
-		}
+            "Atk": 20,
+            "Def": 0,
+            "Hp": 20,
+            "Cost": 4,
+            "Movement": 0,
+            "Atkrange": 3,
+            "Type": "Object"
+        }
 	],
 
     "Trap":[
-		{
-			"Name":"Trap",
-			"SpritePath_img":"sprite/unit/blue/Ctrap",
-			"AbilityName":"-",
-			"AbilityPath_img":"sprite/SkillAbility/null",
-			"Skill1Name":"-",
-			"Skill1Path_img":"sprite/SkillAbility/null",
-			"Skill2Name":"-",
-			"Skill2Path_img":"sprite/SkillAbility/null",
+        {
+            "Name": "Trap",
+            "SpritePath_img": "sprite/unit/blue/Ctrap",
+            "SpritePath_img2": "sprite/unit/blue/Ctrap",
+            "AbilityName": "-",
+            "AbilityPath_img": "sprite/SkillAbility/null",
+            "Skill1Name": "-",
+            "Skill1Path_img": "sprite/SkillAbility/null",
+            "Skill2Name": "-",
+            "Skill2Path_img": "sprite/SkillAbility/null",
 
-			"Atk":5,
-			"Def":0,
-			"Hp":0,
-			"Cost":0,
-			"Movement":0,
-			"Atkrange":0,
-			"Type":"Filed"
-		}
+            "Atk": 5,
+            "Def": 0,
+            "Hp": 0,
+            "Cost": 0,
+            "Movement": 0,
+            "Atkrange": 0,
+            "Type": "Filed"
+        }
 	]
 }

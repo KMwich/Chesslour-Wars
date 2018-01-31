@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ChangeToScene : MonoBehaviour {
 
-	public void LoadToScene(int indexScene)
+    public void LoadToScene(int indexScene)
     {
-        SceneManager.LoadScene(indexScene);
+        print("Change Scene");
+        PhotonNetwork.room.IsOpen = false;
+        PhotonNetwork.room.IsVisible = false;
+        PhotonNetwork.LoadLevel(indexScene);
+
     }
+
+
 }

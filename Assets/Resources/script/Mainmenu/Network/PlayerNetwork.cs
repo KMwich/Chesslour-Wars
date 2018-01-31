@@ -26,19 +26,26 @@ public class PlayerNetwork : MonoBehaviour {
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "select scene")
+        {
+            if (PhotonNetwork.isMasterClient)
+                MasterLoadedGame(2);
+            else
+                NonMasterLoadedGame();
+        }
         if (scene.name == "map")
         {
             if (PhotonNetwork.isMasterClient)
-                MasterLoadedGame();
+                MasterLoadedGame(3);
             else
                 NonMasterLoadedGame();
         }
     }
 
-    private void MasterLoadedGame()
+    private void MasterLoadedGame(int i)
     {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient);
-        PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
+        PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others,i);
     }
 
     private void NonMasterLoadedGame()
@@ -47,9 +54,9 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     [PunRPC]
-    private void RPC_LoadGameOthers()
+    private void RPC_LoadGameOthers(int i)
     {
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(i);
     }
 
     [PunRPC]
@@ -59,9 +66,11 @@ public class PlayerNetwork : MonoBehaviour {
         if (PlayersInGame == PhotonNetwork.playerList.Length)
         {
             print("All players are in the game scene.");
-            PhotonView.RPC("RPC_CreatePlayer", PhotonTargets.All);
+            //PhotonView.RPC("RPC_CreatePlayer", PhotonTargets.All);
         }
     }
+
+
 
     [PunRPC]
     private void RPC_CreatePlayer()

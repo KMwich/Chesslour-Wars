@@ -3,6 +3,7 @@ public class unitStructure
 {
     public string Name;
     public string SpritePath_img;
+    public string SpritePath_img2;
     public string AbilityName;
     public string AbilityPath_img;
     public string Skill1Name;

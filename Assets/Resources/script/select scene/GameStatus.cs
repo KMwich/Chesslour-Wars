@@ -29,13 +29,14 @@ public class GameStatus : MonoBehaviour {
 
     private void updateUnit()
     {
+        print(GameManager.Instance.MainTypeUnit.Count-1);
         Sprite img;
-        int index = GameManager.mainTypeUnit.Count-1;
-        if (GameManager.mainTypeUnit[index] == 0)
+        int index = GameManager.Instance.MainTypeUnit.Count - 1;
+        if (GameManager.Instance.MainTypeUnit[index] == 0)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             slot[index].transform.SetParent(UnitSlotPanel.transform);
-            img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.subTypeUnit[index]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Attacker[GameManager.Instance.SubTypeUnit[index]].SpritePath_img);
             slot[index].GetComponent<Image>().sprite = img;
 
             //set value to object slot
@@ -43,11 +44,11 @@ public class GameStatus : MonoBehaviour {
             slot[index].GetComponent<slot2>().mainIndex = 0;
             slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        else if (GameManager.mainTypeUnit[index] == 1)
+        else if (GameManager.Instance.MainTypeUnit[index] == 1)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             slot[index].transform.SetParent(UnitSlotPanel.transform);
-            img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.subTypeUnit[index]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Supporter[GameManager.Instance.SubTypeUnit[index]].SpritePath_img);
             slot[index].GetComponent<Image>().sprite = img;
 
             //set value to object slot
@@ -55,11 +56,11 @@ public class GameStatus : MonoBehaviour {
             slot[index].GetComponent<slot2>().mainIndex = 1;
             slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        else if (GameManager.mainTypeUnit[index] == 2)
+        else if (GameManager.Instance.MainTypeUnit[index] == 2)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             slot[index].transform.SetParent(UnitSlotPanel.transform);
-            img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.subTypeUnit[index]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Sturture[GameManager.Instance.SubTypeUnit[index]].SpritePath_img);
             slot[index].GetComponent<Image>().sprite = img;
 
             //set value to object slot
@@ -67,11 +68,11 @@ public class GameStatus : MonoBehaviour {
             slot[index].GetComponent<slot2>().mainIndex = 2;
             slot[index].GetComponent<slot2>().UnitCoin = sold;
         }
-        else if (GameManager.mainTypeUnit[index] == 3)
+        else if (GameManager.Instance.MainTypeUnit[index] == 3)
         {
             slot.Add(Instantiate(slotPrefab.gameObject));
             slot[index].transform.SetParent(TrapSlotPanel.transform);
-            img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.subTypeUnit[index]].SpritePath_img);
+            img = Resources.Load<Sprite>(unit_database.units.Trap[GameManager.Instance.SubTypeUnit[index]].SpritePath_img);
             slot[index].GetComponent<Image>().sprite = img;
 
             //set value to object slot
@@ -89,13 +90,13 @@ public class GameStatus : MonoBehaviour {
         int temp = x;
         Destroy(slot[x]);
         slot.RemoveAt(x);
-        GameManager.mainTypeUnit.RemoveAt(x);
-        GameManager.subTypeUnit.RemoveAt(x);
+        GameManager.Instance.MainTypeUnit.RemoveAt(x);
+        GameManager.Instance.SubTypeUnit.RemoveAt(x);
         for(int i = temp;i<slot.Count;i++)
         {
             slot[i].GetComponent<slot2>().referentIndex--;
         }
-        print(GameManager.mainTypeUnit.Count);
+        print(GameManager.Instance.MainTypeUnit.Count);
     }
 
     //--------------------------------------------------------
@@ -133,7 +134,7 @@ public class GameStatus : MonoBehaviour {
         {
             type[Type]++;
             //send to map screen as referent index unit_database
-            GameManager.mainTypeUnit.Add(Type);//contain index [0-3] only!!!
+            GameManager.Instance.MainTypeUnit.Add(Type);//contain index [0-3] only!!!
         }
     }
 
@@ -142,7 +143,7 @@ public class GameStatus : MonoBehaviour {
         if (sellSucess)
         {
             //send to map screen as referent index each aerry in unit_database
-            GameManager.subTypeUnit.Add(subType);
+            GameManager.Instance.SubTypeUnit.Add(subType);
             updateUnit();
         }
     }
@@ -153,8 +154,8 @@ public class GameStatus : MonoBehaviour {
         {
             Destroy(obj);
         }
-        GameManager.mainTypeUnit.Clear();
-        GameManager.subTypeUnit.Clear();
+        GameManager.Instance.MainTypeUnit.Clear();
+        GameManager.Instance.SubTypeUnit.Clear();
         type[0] = 0;
         type[1] = 0;
         type[2] = 0;

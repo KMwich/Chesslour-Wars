@@ -47,4 +47,12 @@ MonoBehaviour:
   - TouchCell
   - UpdatePanel
   - MapChange
+  - OnEnableUnit
+  - setEnable
+  - createUnit
+  - Load
+  - RPC_CreateUnit
+  - RPC_LoadedGameScene2
+  - UnitInstantiate
+  - RPC_Build
   DisableAutoOpenWizard: 1

@@ -26,4 +26,5 @@ public class LobbyNetwork : MonoBehaviour {
         if(!PhotonNetwork.inRoom)
             MainCanvasManager.Instance.LobbyCanvas.transform.SetAsLastSibling();
     }
+ 
 }
