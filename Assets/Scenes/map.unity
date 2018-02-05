@@ -1543,6 +1543,7 @@ GameObject:
   - component: {fileID: 617118602}
   - component: {fileID: 617118601}
   - component: {fileID: 617118600}
+  - component: {fileID: 617118603}
   m_Layer: 5
   m_Name: exit room
   m_TagString: Untagged
@@ -1607,13 +1608,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1512022716}
-        m_MethodName: ClickEnable
-        m_Mode: 1
+      - m_Target: {fileID: 617118603}
+        m_MethodName: LoadByIndex
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1653,6 +1654,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 617118598}
+--- !u!114 &617118603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 617118598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95cfe7532ab008d4e846ac72f34de288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &629586963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,8 +1843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -461}
-  m_SizeDelta: {x: 1000, y: 160}
+  m_AnchoredPosition: {x: -18.2, y: -446.8}
+  m_SizeDelta: {x: 1080, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &667763311
 MonoBehaviour:
@@ -2455,7 +2467,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1012276100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 95, y: 60, z: -100}
+  m_LocalPosition: {x: 95, y: 60, z: -127}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3351,12 +3363,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
---- !u!114 &1512022716 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114095127632544524, guid: 0ae67df94a5f6cd4cb4847e9d6745b98,
-    type: 2}
-  m_PrefabInternal: {fileID: 186543926}
-  m_Script: {fileID: 11500000, guid: a28fb01a5602fc449a8aeb8cb588e6c4, type: 3}
 --- !u!1 &1541892004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3830,7 +3836,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1641381453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 90.3, y: 60, z: -46}
+  m_LocalPosition: {x: 90.3, y: 60, z: 36}
   m_LocalScale: {x: 4.3792295, y: 4.557486, z: 4.167387}
   m_Children: []
   m_Father: {fileID: 0}
