@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Unit : Photon.MonoBehaviour
 {
-    HexCoordinates coordinate;
+    public HexCoordinates coordinate;
     //   public HexGrid map;
     int attackRange = 1;
     bool move = false;
@@ -21,7 +21,8 @@ public class Unit : Photon.MonoBehaviour
         get { return _spritePath;}
         set { _spritePath = value; }
     }
-    
+    public bool isPlay = false;
+
     private Unit Instance;
 
     // Use this for initialization
@@ -36,6 +37,7 @@ public class Unit : Photon.MonoBehaviour
         if (!PhotonView.isMine)
         {
             //this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.0f, 8.0f, 1.0f);
+            this.gameObject.SetActive(false);
             //this.setUnitSprite(TargetSprite);
         }
 
@@ -49,6 +51,17 @@ public class Unit : Photon.MonoBehaviour
         {
             if (PhotonView.isMine)
             {
+                if (!isPlay) {
+                    if (!this.Equals(UnitBar.selectUnit)) return;
+                    if (PhotonView.isMine) {
+                        UnitBar.selectUnit = this;
+                        Vector3 dist = Camera.main.WorldToScreenPoint(transform.position);
+                        Vector3 curPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist.z);
+                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(curPos);
+                        transform.position = worldPos;
+                        return;
+                    }
+                }
                 if (Input.GetMouseButtonUp(0))
                 {
                     Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -85,8 +98,7 @@ public class Unit : Photon.MonoBehaviour
 
     }
 
-    public void setUnitPosition(Vector3 position)
-    {
+    public void setUnitPosition(Vector3 position) {
         coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
         position.x = position.x * (HexMetrics.outerRadius * 1.5f);
         position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f); 
@@ -112,22 +124,34 @@ public class Unit : Photon.MonoBehaviour
         }
     }
 
-    private void OnMouseDrag() {
-        if (PhotonView.isMine)
-        {
-            Vector3 dist = Camera.main.WorldToScreenPoint(transform.position);
-            Vector3 curPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist.z);
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(curPos);
-            transform.position = worldPos;
-        }
-    }
+    private void OnMouseDown() {
+        if (!isPlay) {
+            if (UnitBar.selectUnit == null) {
+                UnitBar.selectUnit = this;
+            } else {
+                if (this.Equals(UnitBar.selectUnit)) {
+                    if (PhotonView.isMine) {
+                        UnitBar unitBar = GetComponentInParent<UnitBar>();
+                        HexCoordinates hexPosition = unitBar._hexGrid.getTouchCoordinate();
 
-    private void OnMouseUp() {
-        if (PhotonView.isMine)
-        {
-            HexCoordinates hexPosition = GetComponentInParent<UnitBar>()._hexGrid.getTouchCoordinate();
-            Vector3 position = HexCoordinates.cubeToOffset(hexPosition);
-            setUnitPosition(position);
+                        for (int i = 0; i < unitBar.Units.Count; i++) {
+                            if (this.Equals(unitBar.Units[i])) continue;
+                            if (hexPosition.Equals(HexCoordinates.defaultCoordinate) || hexPosition.Y > 0 || hexPosition.Equals(unitBar.Units[i].coordinate)) {
+                                transform.position = unitBar.defaultPosition[unitBar.Units.IndexOf(this)];
+                                coordinate = new HexCoordinates(0, 0);
+                                UnitBar.selectUnit = null;
+                                return;
+                            }
+                        }
+                        coordinate = hexPosition;
+                        Vector3 position = HexCoordinates.cubeToOffset(hexPosition);
+                        setUnitPosition(position);
+                        UnitBar.selectUnit = null;
+                    }
+                }
+            }
+        } else {
+
         }
     }
 

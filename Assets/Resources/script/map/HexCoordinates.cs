@@ -4,6 +4,7 @@
 public struct HexCoordinates {
     [SerializeField]
     private int x, y;
+    public static HexCoordinates defaultCoordinate = new HexCoordinates(0, 0);
 
     public int X {
         get {

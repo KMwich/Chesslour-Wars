@@ -17,6 +17,7 @@ public class UnitBar : Photon.MonoBehaviour {
 
     private List<int> UnitList;
 
+    public static Unit selectUnit;
     private List<Unit> _units;
     private List<Unit> _units2;
     public List<Unit> Units
@@ -28,11 +29,13 @@ public class UnitBar : Photon.MonoBehaviour {
             else _units2 = value;
         }
     }
+    public List<Vector3> defaultPosition;
 
     private void Awake() {
         Instance = this;
         print(GameManager.Instance.MainTypeUnit.Count);
         Units = new List<Unit>();
+        defaultPosition = new List<Vector3>();
         PhotonView = GetComponent<PhotonView>();
 
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
@@ -74,11 +77,13 @@ public class UnitBar : Photon.MonoBehaviour {
 
 
         Vector3 position;
-        if (PhotonNetwork.isMasterClient) position.x = i * 10;
-        else position.x = i * 10 + 50;
+        //if (PhotonNetwork.isMasterClient) position.x = i * 10;
+        //else position.x = i * 10 + 50;
+        position.x = i * 10;
         position.y = 2;
         position.z = 0;
 
+        defaultPosition.Add(position);
         Units[i].transform.localPosition = position;
         Units[i].transform.SetParent(transform);
 
