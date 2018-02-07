@@ -55,4 +55,5 @@ MonoBehaviour:
   - RPC_LoadedGameScene2
   - UnitInstantiate
   - RPC_Build
+  - towerInstantiate
   DisableAutoOpenWizard: 1

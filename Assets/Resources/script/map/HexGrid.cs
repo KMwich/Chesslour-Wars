@@ -4,15 +4,14 @@ using UnityEngine;
 public class HexGrid : MonoBehaviour {
 
     public HexCell cellPrefab;
-    HexCell[] cells;
+    public HexCell[] cells;
 
     public int width;
     public int height;
     
-    int hexFilterSize = 0;
     HexCoordinates hexFilterCoordinate;
     public HexFilter hexFilterPrefab;
-    HexFilter hexFilter;
+    public HexFilter hexFilter;
 
     HexMesh hexMesh;
 
@@ -21,7 +20,9 @@ public class HexGrid : MonoBehaviour {
 
     void Awake(){
 
-        hexFilter = null;
+        hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
+        hexFilter.transform.SetParent(transform, false);
+
         hexMesh = GetComponentInChildren<HexMesh>();
         maps = Resources.LoadAll<Sprite>("sprite/map");
 
@@ -39,6 +40,7 @@ public class HexGrid : MonoBehaviour {
                 CreateCell(x, y, i++);
             }
         }
+
 
     }
 
@@ -61,6 +63,13 @@ public class HexGrid : MonoBehaviour {
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
         cell.setType(mapDetail.detail[i] % 4);
         cell.setMap(maps[cell.mapType]);
+        if (PhotonNetwork.isMasterClient) {
+            if (cell.coordinates.Y < mapDetail.area[0])
+                hexFilter.setCoordinate(cell.coordinates, i);
+        } else {
+            if (cell.coordinates.Y > mapDetail.area[1])
+                hexFilter.setCoordinate(cell.coordinates, i);
+        }
     }
 
     //use send position cross function
@@ -75,9 +84,7 @@ public class HexGrid : MonoBehaviour {
         if (hexFilter != null) clearHexFilter();
         hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
         hexFilter.transform.SetParent(transform, false);
-        hexFilter.setHexFilterSize(size);
         
-
         for (int i = 0, x = -size; x <= size; x++) {
             int iX = x + coordinate.X;
 
@@ -99,7 +106,5 @@ public class HexGrid : MonoBehaviour {
 
     public void clearHexFilter() {
         Destroy(hexFilter.gameObject);
-        hexFilterSize = 0;
     }
-
 }

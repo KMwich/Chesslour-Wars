@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 public class Unit : Photon.MonoBehaviour
 {
     public HexCoordinates coordinate;
+    private UnitBar unitBar;
     //   public HexGrid map;
     int attackRange = 1;
     bool move = false;
+    public bool isTower = false;
+
     private Vector3 TargetPosition;
     private Quaternion TargetRotation;
     private string TargetSprite;
     private Vector3 TargetScale;
+    private bool TargetIsTower;
     private PhotonView PhotonView;
 
     private string _spritePath;
@@ -36,11 +40,13 @@ public class Unit : Photon.MonoBehaviour
 
         if (!PhotonView.isMine)
         {
-            //this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.0f, 8.0f, 1.0f);
-            this.gameObject.SetActive(false);
-            //this.setUnitSprite(TargetSprite);
+            this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.0f, 8.0f, 1.0f);
         }
 
+    }
+
+    private void Start() {
+        unitBar = GetComponentInParent<UnitBar>();
     }
 
     // Update is called once per frame
@@ -91,7 +97,10 @@ public class Unit : Photon.MonoBehaviour
                 transform.position = TargetPosition;
                 transform.rotation = TargetRotation;
                 this.setUnitSprite(TargetSprite);
-                //this.gameObject.GetComponent<RectTransform>().localScale = TargetScale;
+                if (TargetIsTower) {
+                    isTower = TargetIsTower;
+                    transform.localScale = TargetScale;
+                }
 
             }
         }
@@ -101,8 +110,9 @@ public class Unit : Photon.MonoBehaviour
     public void setUnitPosition(Vector3 position) {
         coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
         position.x = position.x * (HexMetrics.outerRadius * 1.5f);
-        position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f); 
-        position.z = transform.localPosition.z;
+        position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f);
+        if (isTower) position.z = -3;
+        else position.z = transform.localPosition.z;
         transform.localPosition = position;
     }
 
@@ -113,30 +123,33 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(SpritePath);
-            stream.SendNext(this.gameObject.GetComponent<RectTransform>().localScale);
+            stream.SendNext(isTower);
+            stream.SendNext(transform.localScale);
         }
         else
         {
             TargetPosition = (Vector3)stream.ReceiveNext();
             TargetRotation = (Quaternion)stream.ReceiveNext();
             TargetSprite = (string)stream.ReceiveNext();
-            //TargetScale = (Vector3)stream.ReceiveNext();
+            TargetIsTower = (bool)stream.ReceiveNext();
+            TargetScale = (Vector3)stream.ReceiveNext();
         }
     }
 
     private void OnMouseDown() {
         if (!isPlay) {
+            if (isTower) return;
+
             if (UnitBar.selectUnit == null) {
                 UnitBar.selectUnit = this;
             } else {
                 if (this.Equals(UnitBar.selectUnit)) {
                     if (PhotonView.isMine) {
-                        UnitBar unitBar = GetComponentInParent<UnitBar>();
                         HexCoordinates hexPosition = unitBar._hexGrid.getTouchCoordinate();
 
                         for (int i = 0; i < unitBar.Units.Count; i++) {
                             if (this.Equals(unitBar.Units[i])) continue;
-                            if (hexPosition.Equals(HexCoordinates.defaultCoordinate) || hexPosition.Y > 0 || hexPosition.Equals(unitBar.Units[i].coordinate)) {
+                            if (!canSetPosition(hexPosition, i)) {
                                 transform.position = unitBar.defaultPosition[unitBar.Units.IndexOf(this)];
                                 coordinate = new HexCoordinates(0, 0);
                                 UnitBar.selectUnit = null;
@@ -159,4 +172,15 @@ public class Unit : Photon.MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(path);
     }
 
+    private bool canSetPosition(HexCoordinates coordinates, int i) {
+        if (coordinates.Equals(HexCoordinates.defaultCoordinate)) return false;
+        if (coordinates.Equals(unitBar.Units[i].coordinate)) return false;
+        if (PhotonNetwork.isMasterClient) {
+            if (!(coordinates.Y < HexGrid.mapDetail.area[0])) return false;
+        } else {
+            if (!(coordinates.Y > HexGrid.mapDetail.area[1])) return false;
+        }
+
+        return true;
+    }
 }

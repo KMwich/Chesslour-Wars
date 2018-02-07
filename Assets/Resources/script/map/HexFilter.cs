@@ -1,17 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class HexFilter : MonoBehaviour {
-    HexCell[] cells;
+    List<HexCell> cells = new List<HexCell>();
     public HexCell cellPrefab;
     Sprite filter;
 
-    public void setHexFilterSize (int size) {
+    private void Awake() {
         filter = Resources.Load<Sprite>("sprite/mapfilter/CBzone");
-        int index = 1;
-        for (int i = 1;i <= size; i++) {
-            index += i * 6;
-        }
-        cells = new HexCell[index];
     }
 
     public void setCoordinate(HexCoordinates coordinate, int index) {
@@ -20,7 +16,7 @@ public class HexFilter : MonoBehaviour {
         position.y = 0.1f;
         position.z = (position.z + position.x * 0.5f - (int) position.x / 2) * (HexMetrics.innerRadius * 2f);
 
-        HexCell cell = cells[index] = Instantiate<HexCell>(cellPrefab);
+        HexCell cell = Instantiate<HexCell>(cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.GetComponent<SpriteRenderer>().sprite = filter;

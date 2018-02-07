@@ -4,12 +4,14 @@ using UnityEngine;
 using System.IO;
 
 public class UnitBar : Photon.MonoBehaviour {
-    public HexGrid _hexGrid;
 
     public static UnitBar Instance;
 
     public PhotonView PhotonView;
     private int PlayersInGame = 0;
+
+    public HexGrid _hexGrid;
+    HexFilter hexFilter;
 
     public Unit unitPrefab;
 
@@ -31,15 +33,28 @@ public class UnitBar : Photon.MonoBehaviour {
     }
     public List<Vector3> defaultPosition;
 
+    private List<Unit> _tower;
+    private List<Unit> _tower2;
+    public List<Unit> Towers {
+        get {
+            if (PhotonNetwork.isMasterClient) return _tower;
+            else return _tower2;
+        }
+        set {
+            if (PhotonNetwork.isMasterClient) _tower = value;
+            else _tower2 = value;
+        }
+    }
+
     private void Awake() {
         Instance = this;
         print(GameManager.Instance.MainTypeUnit.Count);
         Units = new List<Unit>();
+        Towers = new List<Unit>();
         defaultPosition = new List<Vector3>();
         PhotonView = GetComponent<PhotonView>();
 
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
-
     }
 
 
@@ -76,18 +91,42 @@ public class UnitBar : Photon.MonoBehaviour {
         }
 
 
-        Vector3 position;
+        Vector3 position = new Vector3();
         //if (PhotonNetwork.isMasterClient) position.x = i * 10;
         //else position.x = i * 10 + 50;
         position.x = i * 10;
         position.y = 2;
-        position.z = 0;
+        position.z = -4;
 
         defaultPosition.Add(position);
         Units[i].transform.localPosition = position;
         Units[i].transform.SetParent(transform);
 
         print("create unit");
+    }
+
+    [PunRPC]
+    private void towerInstantiate(int i, int x, int y, int type) {
+        print("debug1");
+        Towers.Add(PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), new Vector3(0, 0, 1), Quaternion.identity, 0).GetComponent<Unit>());
+        print("debug2");
+        Towers[i].isTower = true;
+        switch (type) {
+            case 0:
+                Towers[i].setUnitSprite("sprite/unit/blue/CBcastle");
+                Towers[i].SpritePath = "sprite/unit/red/CRcastle";
+                break;
+            case 1:
+                Towers[i].setUnitSprite("sprite/unit/blue/CBnexus");
+                Towers[i].SpritePath = "sprite/unit/red/CRnexus";
+                break;
+        }
+
+        Vector3 position = HexCoordinates.cubeToOffset(HexCoordinates.FromOffsetCoordinates(x, y));
+        Towers[i].setUnitPosition(position);
+        Towers[i].transform.SetParent(transform);
+
+        print("create tower");
     }
 
     public void ready() {
@@ -104,7 +143,7 @@ public class UnitBar : Photon.MonoBehaviour {
             else
                 NonMasterLoadedGame();
         }
-        
+
     }
 
     private void MasterLoadedGame()
@@ -141,5 +180,15 @@ public class UnitBar : Photon.MonoBehaviour {
             //PhotonView.RPC("UnitInstantiate", PhotonTargets.Others, i, GameManager.Instance.MainTypeUnit[i], GameManager.Instance.SubTypeUnit[i]);
 
         }
+        for (int i = 0; i < HexGrid.mapDetail.rtower.Length; i += 3) {
+            if (PhotonNetwork.isMasterClient) {
+                towerInstantiate(i / 3,HexGrid.mapDetail.btower[i], HexGrid.mapDetail.btower[i + 1], HexGrid.mapDetail.btower[i + 2]);
+            } 
+            else {
+                towerInstantiate(i / 3, HexGrid.mapDetail.rtower[i], HexGrid.mapDetail.rtower[i + 1], HexGrid.mapDetail.rtower[i + 2]);
+            }
+            
+        }
+
     }
 }
