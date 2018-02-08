@@ -56,4 +56,5 @@ MonoBehaviour:
   - UnitInstantiate
   - RPC_Build
   - towerInstantiate
+  - updateRS
   DisableAutoOpenWizard: 1

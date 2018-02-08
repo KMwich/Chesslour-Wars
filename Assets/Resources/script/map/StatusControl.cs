@@ -54,7 +54,7 @@ public class StatusControl : MonoBehaviour {
     {
         turn = turn;
         Instance.GetComponent<Transform>().Find("Turn").GetComponent<Transform>().Find("Text").GetComponent<Text>().text =  "Turn "+ turn;
-        Instance.GetComponent<Transform>().Find("Unit num").GetComponent<Transform>().Find("Text").GetComponent<Text>().text = UnitRemaining + "/" + UnitRemaining;
+        Instance.GetComponent<Transform>().Find("Unit num").GetComponent<Transform>().Find("Text").GetComponent<Text>().text = UnitBar.Instance.Units.Count + "/" + UnitRemaining;
         Instance.GetComponent<Transform>().Find("Stamina").GetComponent<Transform>().Find("Text").GetComponent<Text>().text = ActionPoints + "/" + MaxActionPoints;
     }
 

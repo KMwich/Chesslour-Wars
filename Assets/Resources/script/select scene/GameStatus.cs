@@ -84,6 +84,7 @@ public class GameStatus : MonoBehaviour {
 
     public static void deleteUnit(int x)
     {
+        if (ChangeToScene.ready == 1 || ChangeToScene.readyState == 2) { return; }
         coin += slot[x].GetComponent<slot2>().UnitCoin;
         type[slot[x].GetComponent<slot2>().mainIndex]--;
 
@@ -103,6 +104,7 @@ public class GameStatus : MonoBehaviour {
     //update value form button
     public void SetCoinOnClick(int sellcoin)
     {
+        if (ChangeToScene.ready == 1 || ChangeToScene.readyState == 2) { return; }
         //use in this screen
         if (coin - sellcoin >= 0)
         {
@@ -118,6 +120,7 @@ public class GameStatus : MonoBehaviour {
 
     public void SetTrapOnclick()
     {
+        if (ChangeToScene.ready == 1) { return; }
         if (type[3] + 1 <= 5)
         {
             sellSucess = true;
@@ -130,6 +133,7 @@ public class GameStatus : MonoBehaviour {
 
     public void SetTypeOnClick(int Type)
     {
+        if (ChangeToScene.ready == 1 || ChangeToScene.readyState == 2) { return; }
         if (sellSucess)
         {
             type[Type]++;
@@ -140,6 +144,7 @@ public class GameStatus : MonoBehaviour {
 
     public void SetIndexInType(int subType)
     {
+        if (ChangeToScene.ready == 1 || ChangeToScene.readyState == 2) { return; }
         if (sellSucess)
         {
             //send to map screen as referent index each aerry in unit_database
@@ -150,6 +155,7 @@ public class GameStatus : MonoBehaviour {
 
     public void ReOnClick()
     {
+        if (ChangeToScene.ready == 1 || ChangeToScene.readyState == 2) { return; }
         foreach (GameObject obj in slot)
         {
             Destroy(obj);

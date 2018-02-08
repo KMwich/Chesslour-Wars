@@ -36,7 +36,12 @@ public class MapSelect : Photon.MonoBehaviour {
         indexC = 0;
         Instance = this;
         PhotonView = GetComponent<PhotonView>();
+        //if (PhotonNetwork.isMasterClient == false)
+        //{
+        //    Map.GetComponent<Transform>().Find("Next").gameObject.GetComponent<Image>().sprite = null;
+        //    Map.GetComponent<Transform>().Find("Back").gameObject.GetComponent<Image>().sprite = null;
 
+        //}
     }
 
     private void Update()
@@ -60,6 +65,7 @@ public class MapSelect : Photon.MonoBehaviour {
 
     public void OnClickNext()
     {
+        if (CurrentRoomCanvas.ready == 1 || CurrentRoomCanvas.readyState == 2) { return; }
         if (!PhotonNetwork.isMasterClient)
             return;
         index++;
@@ -71,6 +77,7 @@ public class MapSelect : Photon.MonoBehaviour {
 
     public void OnClickBack()
     {
+        if (CurrentRoomCanvas.ready == 1 || CurrentRoomCanvas.readyState == 2) { return; }
         if (!PhotonNetwork.isMasterClient)
             return;
         index--;
