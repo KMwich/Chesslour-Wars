@@ -58,4 +58,6 @@ MonoBehaviour:
   - towerInstantiate
   - updateRS
   - readyPhase
+  - increaseTurn
+  - ReActionPoints
   DisableAutoOpenWizard: 1

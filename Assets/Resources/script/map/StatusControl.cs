@@ -7,6 +7,8 @@ public class StatusControl : MonoBehaviour {
     public static StatusControl Instance;
     PhotonView PhotonView;
     private int turn;
+    public bool active = false;
+    private int count = 0;
 
     private int _actionPoints;
     private int _actionPoints2;
@@ -39,6 +41,7 @@ public class StatusControl : MonoBehaviour {
         turn = 1;
         if (PhotonNetwork.isMasterClient)
         {
+            active = true;
             MaxActionPoints = 3;
             ActionPoints = MaxActionPoints;
         }
@@ -58,6 +61,7 @@ public class StatusControl : MonoBehaviour {
         Instance.GetComponent<Transform>().Find("Stamina").GetComponent<Transform>().Find("Text").GetComponent<Text>().text = ActionPoints + "/" + MaxActionPoints;
     }
 
+    [PunRPC]
     public void ReActionPoints()
     {
         ActionPoints = MaxActionPoints;
@@ -65,19 +69,40 @@ public class StatusControl : MonoBehaviour {
 
     public void EndTurn()
     {
-        turn++;
+        if (active == true) return;
+        PhotonView.RPC("increaseTurn",PhotonTargets.All);
     }
 
-    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    [PunRPC]
+    public void increaseTurn()
     {
-        if (stream.isWriting)
-        {
-            stream.SendNext(turn);
+        turn++;
+        if (active == false) {
+            active = true;
+            if (count == 2)
+            {
+                count = 0;
+                if (MaxActionPoints != 5)
+                    MaxActionPoints++;
+            }
+            ReActionPoints();
         }
-        else
-        {
-            turn = (int)stream.ReceiveNext();
+        else {
+            active = false;
+            count++;
         }
     }
 
-}
+        //private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    if (stream.isWriting)
+        //    {
+        //        stream.SendNext(turn);
+        //    }
+        //    else
+        //    {
+        //        turn = (int)stream.ReceiveNext();
+        //    }
+        //}
+
+    }
