@@ -10,7 +10,7 @@ public class HexFilter : MonoBehaviour {
         filter = Resources.Load<Sprite>("sprite/mapfilter/CBzone");
     }
 
-    public void setCoordinate(HexCoordinates coordinate, int index) {
+    public void setFilter(HexCoordinates coordinate, int index) {
         Vector3 position = HexCoordinates.cubeToOffset(coordinate);
         position.x = position.x * HexMetrics.outerRadius * 1.5f;
         position.y = 0.1f;

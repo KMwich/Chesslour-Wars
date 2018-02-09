@@ -15,11 +15,11 @@ public class UnitBar : Photon.MonoBehaviour {
 
     public Unit unitPrefab;
 
-    private int state;
-
-    private List<int> UnitList;
+    public bool isPlay = false;
+    public int action = 0;
 
     public static Unit selectUnit;
+
     private List<Unit> _units;
     private List<Unit> _units2;
     public List<Unit> Units
@@ -57,30 +57,35 @@ public class UnitBar : Photon.MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
 
+    private void Start() {
+        Debug.Log(gameObject.GetComponents<Unit>().Length);
+    }
 
     [PunRPC]
     private void UnitInstantiate(int i,int MainTypeUnit, int SubTypeUnit)
     {
-        print("debug1");
         Units.Add(PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), new Vector3(0, 0, 1), Quaternion.identity, 0).GetComponent<Unit>());
-        print("debug2");
         switch (MainTypeUnit)
         {
             case 0:
                 Units[i].setUnitSprite(unit_database.units.Attacker[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Attacker[SubTypeUnit].SpritePath_img2;
+                Units[i].structure = unit_database.units.Attacker[SubTypeUnit];
                 break;
             case 1:
                 Units[i].setUnitSprite(unit_database.units.Supporter[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Supporter[SubTypeUnit].SpritePath_img2;
+                Units[i].structure = unit_database.units.Supporter[SubTypeUnit];
                 break;
             case 2:
                 Units[i].setUnitSprite(unit_database.units.Sturture[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Sturture[SubTypeUnit].SpritePath_img2;
+                Units[i].structure = unit_database.units.Sturture[SubTypeUnit];
                 break;
             case 3:
                 Units[i].setUnitSprite(unit_database.units.Trap[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Trap[SubTypeUnit].SpritePath_img2;
+                Units[i].structure = unit_database.units.Trap[SubTypeUnit];
                 break;
         }
 
@@ -92,8 +97,6 @@ public class UnitBar : Photon.MonoBehaviour {
 
 
         Vector3 position = new Vector3();
-        //if (PhotonNetwork.isMasterClient) position.x = i * 10;
-        //else position.x = i * 10 + 50;
         position.x = i * 10;
         position.y = 2;
         position.z = -4;
@@ -101,8 +104,9 @@ public class UnitBar : Photon.MonoBehaviour {
         defaultPosition.Add(position);
         Units[i].transform.localPosition = position;
         Units[i].transform.SetParent(transform);
+        
 
-        print("create unit");
+        print("create unit " + i);
     }
 
     [PunRPC]
@@ -156,8 +160,6 @@ public class UnitBar : Photon.MonoBehaviour {
             PhotonView.RPC("RPC_CreateUnit", PhotonTargets.MasterClient);
     }
 
-
-
     [PunRPC]
     private void RPC_CreateUnit()
     {
@@ -180,6 +182,7 @@ public class UnitBar : Photon.MonoBehaviour {
             //PhotonView.RPC("UnitInstantiate", PhotonTargets.Others, i, GameManager.Instance.MainTypeUnit[i], GameManager.Instance.SubTypeUnit[i]);
 
         }
+
         for (int i = 0; i < HexGrid.mapDetail.rtower.Length; i += 3) {
             if (PhotonNetwork.isMasterClient) {
                 towerInstantiate(i / 3,HexGrid.mapDetail.btower[i], HexGrid.mapDetail.btower[i + 1], HexGrid.mapDetail.btower[i + 2]);
@@ -189,6 +192,15 @@ public class UnitBar : Photon.MonoBehaviour {
             }
             
         }
+    }
 
+    public void setPlayGame() {
+        isPlay = true;
+        _hexGrid.clearHexFilter();
+    }
+
+    public void setAction(int value) {
+        action += value;
+        if (action == 3) action = 0;
     }
 }

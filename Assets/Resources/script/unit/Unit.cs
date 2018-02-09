@@ -1,16 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Unit : Photon.MonoBehaviour
 {
-    public HexCoordinates coordinate;
-    private UnitBar unitBar;
-    //   public HexGrid map;
-    int attackRange = 1;
-    bool move = false;
-    public bool isTower = false;
+    private Unit Instance;
 
     private Vector3 TargetPosition;
     private Quaternion TargetRotation;
@@ -25,9 +18,10 @@ public class Unit : Photon.MonoBehaviour
         get { return _spritePath;}
         set { _spritePath = value; }
     }
-    public bool isPlay = false;
 
-    private Unit Instance;
+    public HexCoordinates coordinate;
+    public bool isTower = false;
+    public unitStructure structure;
 
     // Use this for initialization
     void Awake()
@@ -36,28 +30,23 @@ public class Unit : Photon.MonoBehaviour
         PhotonView = GetComponent<PhotonView>();
         Vector3 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
         gameObject.GetComponent<BoxCollider2D>().size = S;
-        gameObject.GetComponent<BoxCollider2D>().offset = new Vector3((S.x / 2), 0);
 
         if (!PhotonView.isMine)
         {
             this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.0f, 8.0f, 1.0f);
         }
-
-    }
-
-    private void Start() {
-        unitBar = GetComponentInParent<UnitBar>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         Scene scene = SceneManager.GetActiveScene();
-        if ( scene.name == "map")
-        {
-            if (PhotonView.isMine)
-            {
-                if (!isPlay) {
+        if (scene.name == "map") {
+            if (PhotonView.isMine) {
+                //code start here
+                if (isTower) return;
+
+                if (!UnitBar.Instance.isPlay) {
+                    
                     if (!this.Equals(UnitBar.selectUnit)) return;
                     if (PhotonView.isMine) {
                         UnitBar.selectUnit = this;
@@ -65,55 +54,51 @@ public class Unit : Photon.MonoBehaviour
                         Vector3 curPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist.z);
                         Vector3 worldPos = Camera.main.ScreenToWorldPoint(curPos);
                         transform.position = worldPos;
-                        return;
+                    }
+                    return;
+                } else {
+                    //move code
+
+                    if (!this.Equals(UnitBar.selectUnit)) return;
+
+                    if (UnitBar.Instance.action == 1) {
+                        if (Input.GetMouseButtonUp(0)) {
+                            if (UnitBar.Instance.action == 1) {
+                                int dist = HexCoordinates.cubeDeistance(coordinate, UnitManager.Instance.HexGrid.getTouchCoordinate());
+                                if (dist != 0 && dist <= 1) {
+                                    HexCoordinates touchCoordinate = UnitManager.Instance.HexGrid.getTouchCoordinate();
+                                    if (!canSetPosition(touchCoordinate)) return;
+                                    coordinate = touchCoordinate;
+                                    setUnitPosition(HexCoordinates.cubeToOffset(coordinate));
+                                    UnitBar.Instance._hexGrid.clearHexFilter();
+                                    UnitBar.selectUnit = null;
+                                    UnitBar.Instance.action = 0;
+                                }
+                            }
+                        }
+                    }
+
+                    if (Input.GetMouseButtonUp(1)) {
+                        if (UnitBar.selectUnit == null) return;
+                        UnitBar.Instance._hexGrid.clearHexFilter();
+                        UnitBar.selectUnit = null;
+                        UnitBar.Instance.action = 0;
                     }
                 }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    Physics.Raycast(inputRay, out hit);
-                    Debug.Log(hit.point);
-                    if (move)
-                    {
-                        int dist = HexCoordinates.cubeDeistance(coordinate, UnitManager.Instance.HexGrid.getTouchCoordinate());
-                        if (dist != 0 && dist <= attackRange)
-                            setUnitPosition(HexCoordinates.cubeToOffset(UnitManager.Instance.HexGrid.getTouchCoordinate()));
-                    }
-                    if (coordinate.Equals(UnitManager.Instance.HexGrid.getTouchCoordinate()))
-                    {
-                        UnitManager.Instance.HexGrid.setHexFilter(coordinate, 1);
-                        move = true;
-                    }
-                }
-                if (Input.GetMouseButtonUp(1))
-                {
-                    UnitManager.Instance.HexGrid.clearHexFilter();
-                    move = false;
-                }
-            }
-            else
-            {
+
+            } else {
                 transform.position = TargetPosition;
                 transform.rotation = TargetRotation;
                 this.setUnitSprite(TargetSprite);
+                if (UnitBar.Instance.isPlay) {
+                    transform.localScale = TargetScale;
+                }
                 if (TargetIsTower) {
                     isTower = TargetIsTower;
                     transform.localScale = TargetScale;
                 }
-
             }
         }
-
-    }
-
-    public void setUnitPosition(Vector3 position) {
-        coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
-        position.x = position.x * (HexMetrics.outerRadius * 1.5f);
-        position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f);
-        if (isTower) position.z = -3;
-        else position.z = transform.localPosition.z;
-        transform.localPosition = position;
     }
 
     private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -137,31 +122,31 @@ public class Unit : Photon.MonoBehaviour
     }
 
     private void OnMouseDown() {
-        if (!isPlay) {
-            if (isTower) return;
+        //if not select set this to select
+        if (UnitBar.selectUnit == null) {
+            UnitBar.selectUnit = this;
+            return;
+        }
 
-            if (UnitBar.selectUnit == null) {
-                UnitBar.selectUnit = this;
-            } else {
-                if (this.Equals(UnitBar.selectUnit)) {
-                    if (PhotonView.isMine) {
-                        HexCoordinates hexPosition = unitBar._hexGrid.getTouchCoordinate();
+        //if select check this is select
+        if (!this.Equals(UnitBar.selectUnit)) return;
 
-                        for (int i = 0; i < unitBar.Units.Count; i++) {
-                            if (this.Equals(unitBar.Units[i])) continue;
-                            if (!canSetPosition(hexPosition, i)) {
-                                transform.position = unitBar.defaultPosition[unitBar.Units.IndexOf(this)];
-                                coordinate = new HexCoordinates(0, 0);
-                                UnitBar.selectUnit = null;
-                                return;
-                            }
-                        }
-                        coordinate = hexPosition;
-                        Vector3 position = HexCoordinates.cubeToOffset(hexPosition);
-                        setUnitPosition(position);
-                        UnitBar.selectUnit = null;
-                    }
+        if (isTower) return;
+
+        if (!UnitBar.Instance.isPlay) {
+            if (PhotonView.isMine) {
+                HexCoordinates hexPosition = UnitBar.Instance._hexGrid.getTouchCoordinate();
+
+                if (!canSetPosition(hexPosition)) {
+                    transform.position = UnitBar.Instance.defaultPosition[UnitBar.Instance.Units.IndexOf(this)];
+                    coordinate = new HexCoordinates(0, 0);
+                    UnitBar.selectUnit = null;
+                    return;
                 }
+                coordinate = hexPosition;
+                Vector3 position = HexCoordinates.cubeToOffset(hexPosition);
+                setUnitPosition(position);
+                UnitBar.selectUnit = null;
             }
         } else {
 
@@ -172,15 +157,41 @@ public class Unit : Photon.MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(path);
     }
 
-    private bool canSetPosition(HexCoordinates coordinates, int i) {
+    //if can set unit return true else return false
+    private bool canSetPosition(HexCoordinates coordinates) {
         if (coordinates.Equals(HexCoordinates.defaultCoordinate)) return false;
-        if (coordinates.Equals(unitBar.Units[i].coordinate)) return false;
-        if (PhotonNetwork.isMasterClient) {
-            if (!(coordinates.Y < HexGrid.mapDetail.area[0])) return false;
-        } else {
-            if (!(coordinates.Y > HexGrid.mapDetail.area[1])) return false;
+
+        if (!UnitBar.Instance.isPlay) {
+            if (PhotonNetwork.isMasterClient) {
+                if (!(coordinates.Y < HexGrid.mapDetail.area[0])) return false;
+            } else {
+                if (!(coordinates.Y > HexGrid.mapDetail.area[1])) return false;
+            }
+        }
+
+        Vector3 position = HexCoordinates.cubeToOffset(coordinates);
+        int type = UnitBar.Instance._hexGrid.cells[(int)(position.x + (position.z * UnitBar.Instance._hexGrid.width))].mapType;
+        if (type == 1 || type == 2) return false;
+
+        for (int i = 0; i < UnitBar.Instance.Units.Count; i++) {
+            if (this.Equals(UnitBar.Instance.Units[i])) continue;
+            if (coordinates.Equals(UnitBar.Instance.Units[i].coordinate)) return false;
+        }
+
+        for (int i = 0;i < UnitBar.Instance.Towers.Count; i++) {
+            if (coordinates.Equals(UnitBar.Instance.Towers[i].coordinate)) return false;
         }
 
         return true;
     }
+
+    public void setUnitPosition(Vector3 position) {
+        coordinate = HexCoordinates.FromOffsetCoordinates((int)position.x, (int)position.z);
+        position.x = position.x * (HexMetrics.outerRadius * 1.5f);
+        position.y = (position.z + position.x * 0.5f - (int)position.x / 2) * (HexMetrics.innerRadius * 2f);
+        if (isTower) position.z = -3;
+        else position.z = transform.localPosition.z;
+        transform.localPosition = position;
+    }
+
 }

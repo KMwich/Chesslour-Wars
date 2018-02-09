@@ -63,12 +63,15 @@ public class HexGrid : MonoBehaviour {
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
         cell.setType(mapDetail.detail[i] % 4);
         cell.setMap(maps[cell.mapType]);
+
+        if (cell.mapType == 1 || cell.mapType == 2) return;
+
         if (PhotonNetwork.isMasterClient) {
             if (cell.coordinates.Y < mapDetail.area[0])
-                hexFilter.setCoordinate(cell.coordinates, i);
+                hexFilter.setFilter(cell.coordinates, i);
         } else {
             if (cell.coordinates.Y > mapDetail.area[1])
-                hexFilter.setCoordinate(cell.coordinates, i);
+                hexFilter.setFilter(cell.coordinates, i);
         }
     }
 
@@ -96,8 +99,8 @@ public class HexGrid : MonoBehaviour {
 
                 int index = iX + (iY + iX / 2) * width;
 
-                if (cells[index] != null)
-                    hexFilter.setCoordinate(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2),i);
+                if (cells[index] != null && (cells[index].mapType != 1 && cells[index].mapType != 2))
+                    hexFilter.setFilter(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2),i);
                 
                 i++;
             }
