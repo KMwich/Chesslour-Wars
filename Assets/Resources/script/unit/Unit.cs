@@ -63,9 +63,9 @@ public class Unit : Photon.MonoBehaviour
                     if (UnitBar.Instance.action == 1) {
                         if (Input.GetMouseButtonUp(0)) {
                             if (UnitBar.Instance.action == 1) {
-                                int dist = HexCoordinates.cubeDeistance(coordinate, UnitManager.Instance.HexGrid.getTouchCoordinate());
+                                int dist = HexCoordinates.cubeDeistance(coordinate, UnitBar.Instance._hexGrid.getTouchCoordinate());
                                 if (dist != 0 && dist <= 1) {
-                                    HexCoordinates touchCoordinate = UnitManager.Instance.HexGrid.getTouchCoordinate();
+                                    HexCoordinates touchCoordinate = UnitBar.Instance._hexGrid.getTouchCoordinate();
                                     if (!canSetPosition(touchCoordinate)) return;
                                     coordinate = touchCoordinate;
                                     setUnitPosition(HexCoordinates.cubeToOffset(coordinate));
@@ -76,25 +76,25 @@ public class Unit : Photon.MonoBehaviour
                             }
                         }
                     }
-
-                    if (Input.GetMouseButtonUp(1)) {
-                        if (UnitBar.selectUnit == null) return;
-                        UnitBar.Instance._hexGrid.clearHexFilter();
-                        UnitBar.selectUnit = null;
-                        UnitBar.Instance.action = 0;
-                    }
                 }
-
             } else {
                 transform.position = TargetPosition;
+                coordinate = HexCoordinates.FromPosition(TargetPosition);
                 transform.rotation = TargetRotation;
                 this.setUnitSprite(TargetSprite);
                 if (UnitBar.Instance.isPlay) {
                     transform.localScale = TargetScale;
-                }
-                if (TargetIsTower) {
-                    isTower = TargetIsTower;
-                    transform.localScale = TargetScale;
+                    if (TargetIsTower) {
+                        if (!UnitBar.Instance.enemyTowers.Contains(this)) UnitBar.Instance.enemyTowers.Add(this);
+                    } else {
+                        if (!UnitBar.Instance.enemyUnits.Contains(this)) UnitBar.Instance.enemyUnits.Add(this);
+                    }
+                    this.transform.SetParent(UnitBar.Instance.transform);
+                } else {
+                    if (TargetIsTower) {
+                        isTower = TargetIsTower;
+                        transform.localScale = TargetScale;
+                    }
                 }
             }
         }
@@ -109,6 +109,8 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(SpritePath);
             stream.SendNext(isTower);
             stream.SendNext(transform.localScale);
+            //stream.SendNext(coordinate.X);
+            //stream.SendNext(coordinate.Y);
         }
         else
         {
@@ -117,6 +119,9 @@ public class Unit : Photon.MonoBehaviour
             TargetSprite = (string)stream.ReceiveNext();
             TargetIsTower = (bool)stream.ReceiveNext();
             TargetScale = (Vector3)stream.ReceiveNext();
+            //int x = (int) stream.ReceiveNext();
+            //int y = (int)stream.ReceiveNext();
+            //coordinate = HexCoordinates.FromOffsetCoordinates(x, y);
         }
     }
 
@@ -181,6 +186,16 @@ public class Unit : Photon.MonoBehaviour
 
         for (int i = 0;i < UnitBar.Instance.Towers.Count; i++) {
             if (coordinates.Equals(UnitBar.Instance.Towers[i].coordinate)) return false;
+        }
+
+        Debug.Log(UnitBar.Instance.enemyUnits.Count);
+        for (int i = 0; i < UnitBar.Instance.enemyUnits.Count; i++) {
+            if (coordinates.Equals(UnitBar.Instance.enemyUnits[i].coordinate)) return false;
+        }
+
+        Debug.Log(UnitBar.Instance.enemyTowers.Count);
+        for (int i = 0; i < UnitBar.Instance.enemyTowers.Count; i++) {
+            if (coordinates.Equals(UnitBar.Instance.enemyTowers[i].coordinate)) return false;
         }
 
         return true;

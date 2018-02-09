@@ -108,6 +108,8 @@ public class HexGrid : MonoBehaviour {
     }
 
     public void clearHexFilter() {
+        if (hexFilter == null) return;
         Destroy(hexFilter.gameObject);
+        hexFilter = null;
     }
 }

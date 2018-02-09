@@ -34,6 +34,16 @@ public class UnitBar : Photon.MonoBehaviour {
             else _units2 = value;
         }
     }
+    public List<Unit> enemyUnits {
+        get {
+            if (PhotonNetwork.isMasterClient) return _units2;
+            else return _units;
+        }
+        set {
+            if (PhotonNetwork.isMasterClient) _units2 = value;
+            else _units = value;
+        }
+    }
     public List<Vector3> defaultPosition;
 
     private List<Unit> _tower;
@@ -48,20 +58,38 @@ public class UnitBar : Photon.MonoBehaviour {
             else _tower2 = value;
         }
     }
+    public List<Unit> enemyTowers {
+        get {
+            if (PhotonNetwork.isMasterClient) return _tower2;
+            else return _tower;
+        }
+        set {
+            if (PhotonNetwork.isMasterClient) _tower2 = value;
+            else _tower = value;
+        }
+    }
 
     private void Awake() {
         Instance = this;
         print(GameManager.Instance.MainTypeUnit.Count);
         Units = new List<Unit>();
         Towers = new List<Unit>();
+        enemyTowers = new List<Unit>();
+        enemyUnits = new List<Unit>();
         defaultPosition = new List<Vector3>();
         PhotonView = GetComponent<PhotonView>();
 
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
 
-    private void Start() {
-        Debug.Log(gameObject.GetComponents<Unit>().Length);
+    private void Update() {
+        if (isPlay) {
+            if (Input.GetMouseButtonUp(1)) {
+                _hexGrid.clearHexFilter();
+                selectUnit = null;
+                action = 0;
+            }
+        }
     }
 
     [PunRPC]
@@ -135,10 +163,6 @@ public class UnitBar : Photon.MonoBehaviour {
 
         print("create tower");
     }
-
-    //public void ready() {
-    //    Debug.Log(true);
-    //}
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
@@ -222,9 +246,11 @@ public class UnitBar : Photon.MonoBehaviour {
         ObjectManager.Instance.show(2);
     }
 
-    public void setAction(int value) {
-        action += value;
-        if (action == 3) action = 0;
+    public void setMove() {
+        if (selectUnit == null) return;
+        _hexGrid.setHexFilter(selectUnit.coordinate, 1);
+        action = 1;
+        Debug.Log("setMove");
     }
 
     [PunRPC]
