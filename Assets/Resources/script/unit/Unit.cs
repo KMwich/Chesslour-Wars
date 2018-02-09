@@ -46,7 +46,6 @@ public class Unit : Photon.MonoBehaviour
                 if (isTower) return;
 
                 if (!UnitBar.Instance.isPlay) {
-                    
                     if (!this.Equals(UnitBar.selectUnit)) return;
                     if (PhotonView.isMine) {
                         UnitBar.selectUnit = this;
@@ -122,6 +121,8 @@ public class Unit : Photon.MonoBehaviour
     }
 
     private void OnMouseDown() {
+        if (UnitBar.Instance.ready == 1) return;
+
         //if not select set this to select
         if (UnitBar.selectUnit == null) {
             UnitBar.selectUnit = this;

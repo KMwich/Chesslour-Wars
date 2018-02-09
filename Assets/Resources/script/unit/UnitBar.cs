@@ -7,6 +7,9 @@ public class UnitBar : Photon.MonoBehaviour {
 
     public static UnitBar Instance;
 
+    private int readyState = 0;
+    public int ready = 0;
+
     public PhotonView PhotonView;
     private int PlayersInGame = 0;
 
@@ -133,9 +136,9 @@ public class UnitBar : Photon.MonoBehaviour {
         print("create tower");
     }
 
-    public void ready() {
-        Debug.Log(true);
-    }
+    //public void ready() {
+    //    Debug.Log(true);
+    //}
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
@@ -194,13 +197,39 @@ public class UnitBar : Photon.MonoBehaviour {
         }
     }
 
-    public void setPlayGame() {
-        isPlay = true;
+    public void setPlayGame()
+    {
         _hexGrid.clearHexFilter();
+
+        if (ready == 1) { return; }
+        if (readyState != 1)
+        {
+            ready++;
+            PhotonView.RPC("updateRS", PhotonTargets.All);
+        }
+        else
+        {
+            PhotonView.RPC("readyPhase", PhotonTargets.All);
+        }
+    }
+
+    [PunRPC]
+    private void readyPhase()
+    {
+        ready = 0;
+        isPlay = true;
+        ObjectManager.Instance.hide(1);
+        ObjectManager.Instance.show(2);
     }
 
     public void setAction(int value) {
         action += value;
         if (action == 3) action = 0;
+    }
+
+    [PunRPC]
+    private void updateRS()
+    {
+        readyState++;
     }
 }
