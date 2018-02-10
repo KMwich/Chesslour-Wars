@@ -21,7 +21,7 @@ public class UnitBar : Photon.MonoBehaviour {
     public bool isPlay = false;
     public int action = 0;
 
-    public static Unit selectUnit;
+    public Unit selectUnit;
 
     private List<Unit> _units;
     private List<Unit> _units2;
@@ -83,9 +83,7 @@ public class UnitBar : Photon.MonoBehaviour {
     private void Update() {
         if (isPlay) {
             if (Input.GetMouseButtonUp(1)) {
-                _hexGrid.clearHexFilter();
-                selectUnit = null;
-                action = 0;
+                clearSelectUnit();
             }
         }
     }
@@ -132,7 +130,7 @@ public class UnitBar : Photon.MonoBehaviour {
     }
 
     [PunRPC]
-    private void towerInstantiate(int i, int x, int y, int type) {
+    public void towerInstantiate(int i, int x, int y, int type) {
         Towers.Add(PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), new Vector3(0, 0, 1), Quaternion.identity, 0).GetComponent<Unit>());
         Towers[i].isTower = true;
         switch (type) {
@@ -145,8 +143,9 @@ public class UnitBar : Photon.MonoBehaviour {
                 Towers[i].SpritePath = "sprite/unit/red/CRnexus";
                 break;
         }
-
+        print(x + " " + y);
         Vector3 position = HexCoordinates.cubeToOffset(HexCoordinates.FromOffsetCoordinates(x, y));
+        print(position.x + " " + position.y);
         Towers[i].setUnitPosition(position);
         Towers[i].transform.SetParent(transform);
 
@@ -236,10 +235,19 @@ public class UnitBar : Photon.MonoBehaviour {
     }
 
     public void setMove() {
+        if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
-        _hexGrid.setHexFilter(selectUnit.coordinate, 1);
         action = 1;
+        _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Movement, action);
         Debug.Log("setMove");
+    }
+
+    public void setAttack() {
+        if (!StatusControl.Instance.active) return;
+        if (selectUnit == null) return;
+        action = 2;
+        _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Atkrange, action);
+        Debug.Log("setAttack");
     }
 
     [PunRPC]
@@ -250,5 +258,11 @@ public class UnitBar : Photon.MonoBehaviour {
 
     public void setSelectUnit(int i) {
         selectUnit = Units[i];
+    }
+
+    public void clearSelectUnit() {
+        selectUnit = null;
+        action = 0;
+        _hexGrid.clearHexFilter();
     }
 }

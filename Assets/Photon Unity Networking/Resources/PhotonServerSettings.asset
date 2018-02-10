@@ -60,4 +60,5 @@ MonoBehaviour:
   - readyPhase
   - increaseTurn
   - ReActionPoints
+  - RPC_destroyUnit
   DisableAutoOpenWizard: 1

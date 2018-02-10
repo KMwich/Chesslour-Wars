@@ -68,10 +68,10 @@ public class HexGrid : MonoBehaviour {
 
         if (PhotonNetwork.isMasterClient) {
             if (cell.coordinates.Y < mapDetail.area[0])
-                hexFilter.setFilter(cell.coordinates, i);
+                hexFilter.setFilter(cell.coordinates, 1);
         } else {
             if (cell.coordinates.Y > mapDetail.area[1])
-                hexFilter.setFilter(cell.coordinates, i);
+                hexFilter.setFilter(cell.coordinates, 1);
         }
     }
 
@@ -83,12 +83,12 @@ public class HexGrid : MonoBehaviour {
         return HexCoordinates.FromPosition(hit.point);
     }
 
-    public void setHexFilter(HexCoordinates coordinate, int size) {
+    public void setHexFilter(HexCoordinates coordinate, int size, int action) {
         if (hexFilter != null) clearHexFilter();
         hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
         hexFilter.transform.SetParent(transform, false);
         
-        for (int i = 0, x = -size; x <= size; x++) {
+        for (int x = -size; x <= size; x++) {
             int iX = x + coordinate.X;
 
             if ((iX < 0 || iX >= width)) continue;
@@ -100,9 +100,7 @@ public class HexGrid : MonoBehaviour {
                 int index = iX + (iY + iX / 2) * width;
 
                 if (cells[index] != null && (cells[index].mapType != 1 && cells[index].mapType != 2))
-                    hexFilter.setFilter(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2),i);
-                
-                i++;
+                    hexFilter.setFilter(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2), action);
             }
         }
     }

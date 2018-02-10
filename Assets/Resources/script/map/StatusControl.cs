@@ -69,7 +69,8 @@ public class StatusControl : MonoBehaviour {
 
     public void EndTurn()
     {
-        if (active == true) return;
+        if (active == false) return;
+        UnitBar.Instance.clearSelectUnit();
         PhotonView.RPC("increaseTurn",PhotonTargets.All);
     }
 
