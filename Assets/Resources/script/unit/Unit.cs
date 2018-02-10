@@ -13,10 +13,13 @@ public class Unit : Photon.MonoBehaviour
     private bool TargetIsTower;
     private PhotonView PhotonView;
 
+    public bool havePlayed = false;
+    public bool haveMoved = false;
+
     private string _spritePath;
     public string SpritePath
     {
-        get { return _spritePath;}
+        get { return _spritePath; }
         set { _spritePath = value; }
     }
 
@@ -44,6 +47,13 @@ public class Unit : Photon.MonoBehaviour
         if (scene.name == "map") {
             if (PhotonView.isMine) {
                 //code start here
+
+                if (StatusControl.Instance.active == false)
+                {
+                    haveMoved = false;
+                    havePlayed = false;
+                }
+
                 if (isTower) return;
 
                 if (!UnitBar.Instance.isPlay) {
@@ -62,6 +72,7 @@ public class Unit : Photon.MonoBehaviour
                     if (!this.Equals(UnitBar.Instance.selectUnit)) return;
 
                     if (UnitBar.Instance.action == 1) {
+                        if (haveMoved == true || havePlayed == true) { print("move already");  return; }
                         if (Input.GetMouseButtonUp(0)) {
                             if (UnitBar.Instance.action == 1) {
                                 int dist = HexCoordinates.cubeDeistance(coordinate, UnitBar.Instance._hexGrid.getTouchCoordinate());
@@ -71,6 +82,7 @@ public class Unit : Photon.MonoBehaviour
                                     coordinate = touchCoordinate;
                                     setUnitPosition(HexCoordinates.cubeToOffset(coordinate));
                                     UnitBar.Instance.clearSelectUnit();
+                                    haveMoved = true;
                                 }
                             }
                         }
@@ -85,9 +97,9 @@ public class Unit : Photon.MonoBehaviour
                 if (UnitBar.Instance.isPlay) {
                     transform.localScale = TargetScale;
                     if (TargetIsTower) {
-                        if (!UnitBar.Instance.enemyTowers.Contains(this)) UnitBar.Instance.enemyTowers.Add(this);
+                        if (!UnitBar.Instance.enemyTowers.Contains(this)) { UnitBar.Instance.enemyTowers.Add(this); }
                     } else {
-                        if (!UnitBar.Instance.enemyUnits.Contains(this)) UnitBar.Instance.enemyUnits.Add(this);
+                        if (!UnitBar.Instance.enemyUnits.Contains(this)) { UnitBar.Instance.enemyUnits.Add(this); }
                     }
                     this.transform.SetParent(UnitBar.Instance.transform);
                 } else {
@@ -122,7 +134,6 @@ public class Unit : Photon.MonoBehaviour
 
     private void OnMouseDown() {
         if (UnitBar.Instance.ready == 1) return;
-
         //if not select set this to select
         if (UnitBar.Instance.selectUnit == null) {
             UnitBar.Instance.selectUnit = this;
@@ -152,6 +163,9 @@ public class Unit : Photon.MonoBehaviour
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
                     if (dist == UnitBar.Instance.selectUnit.structure.Atkrange) {
                         desTroyUnit();
+                        UnitBar.Instance.selectUnit.havePlayed = true;
+                        UnitBar.Instance.selectUnit.haveMoved = true;
+                        StatusControl.Instance.ActionPoints -= 1;
                         UnitBar.Instance.clearSelectUnit();
                     }
                 }

@@ -12,7 +12,7 @@ public class StatusControl : MonoBehaviour {
 
     private int _actionPoints;
     private int _actionPoints2;
-    private int ActionPoints
+    public int ActionPoints
     {
         get { if (PhotonNetwork.isMasterClient) return _actionPoints; else return _actionPoints2; }
         set { if (PhotonNetwork.isMasterClient) _actionPoints = value; else _actionPoints2 = value; }
@@ -43,6 +43,7 @@ public class StatusControl : MonoBehaviour {
         {
             active = true;
             MaxActionPoints = 3;
+            count = 1;
             ActionPoints = MaxActionPoints;
         }
         else

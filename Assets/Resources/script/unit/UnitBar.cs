@@ -237,6 +237,7 @@ public class UnitBar : Photon.MonoBehaviour {
     public void setMove() {
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
+        if (selectUnit.haveMoved == true || selectUnit.havePlayed == true){ print("move already");  return; }
         action = 1;
         _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Movement, action);
         Debug.Log("setMove");
@@ -245,6 +246,7 @@ public class UnitBar : Photon.MonoBehaviour {
     public void setAttack() {
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
+        if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("attack already"); return; }
         action = 2;
         _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Atkrange, action);
         Debug.Log("setAttack");
