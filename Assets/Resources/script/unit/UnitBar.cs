@@ -124,7 +124,7 @@ public class UnitBar : Photon.MonoBehaviour {
             Units[i].transform.localScale = new Vector3(7, 7, 1);
         }
 
-        Units[i].transform.localPosition = new Vector3(-1920, -1920, -1920); ;
+        Units[i].transform.position = new Vector3(-1920, -1920, -4);
         Units[i].transform.SetParent(transform);
         
 

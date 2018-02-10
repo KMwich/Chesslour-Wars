@@ -139,7 +139,7 @@ public class Unit : Photon.MonoBehaviour
                 HexCoordinates hexPosition = UnitBar.Instance._hexGrid.getTouchCoordinate();
 
                 if (!canSetPosition(hexPosition)) {
-                    transform.position = new Vector3(-1920, -1920, -1920);
+                    transform.position = new Vector3(-1920, -1920, -4);
                     coordinate = new HexCoordinates(0, 0);
                     SetUnitBar.Instance.cantSetUnit(UnitBar.Instance.Units.IndexOf(this));
                     UnitBar.selectUnit = null;
