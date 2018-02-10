@@ -109,8 +109,6 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(SpritePath);
             stream.SendNext(isTower);
             stream.SendNext(transform.localScale);
-            //stream.SendNext(coordinate.X);
-            //stream.SendNext(coordinate.Y);
         }
         else
         {
@@ -119,9 +117,6 @@ public class Unit : Photon.MonoBehaviour
             TargetSprite = (string)stream.ReceiveNext();
             TargetIsTower = (bool)stream.ReceiveNext();
             TargetScale = (Vector3)stream.ReceiveNext();
-            //int x = (int) stream.ReceiveNext();
-            //int y = (int)stream.ReceiveNext();
-            //coordinate = HexCoordinates.FromOffsetCoordinates(x, y);
         }
     }
 
@@ -144,8 +139,9 @@ public class Unit : Photon.MonoBehaviour
                 HexCoordinates hexPosition = UnitBar.Instance._hexGrid.getTouchCoordinate();
 
                 if (!canSetPosition(hexPosition)) {
-                    transform.position = UnitBar.Instance.defaultPosition[UnitBar.Instance.Units.IndexOf(this)];
+                    transform.position = new Vector3(-1920, -1920, -1920);
                     coordinate = new HexCoordinates(0, 0);
+                    SetUnitBar.Instance.cantSetUnit(UnitBar.Instance.Units.IndexOf(this));
                     UnitBar.selectUnit = null;
                     return;
                 }

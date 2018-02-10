@@ -44,7 +44,6 @@ public class UnitBar : Photon.MonoBehaviour {
             else _units = value;
         }
     }
-    public List<Vector3> defaultPosition;
 
     private List<Unit> _tower;
     private List<Unit> _tower2;
@@ -76,7 +75,6 @@ public class UnitBar : Photon.MonoBehaviour {
         Towers = new List<Unit>();
         enemyTowers = new List<Unit>();
         enemyUnits = new List<Unit>();
-        defaultPosition = new List<Vector3>();
         PhotonView = GetComponent<PhotonView>();
 
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
@@ -126,14 +124,7 @@ public class UnitBar : Photon.MonoBehaviour {
             Units[i].transform.localScale = new Vector3(7, 7, 1);
         }
 
-
-        Vector3 position = new Vector3();
-        position.x = i * 10;
-        position.y = 2;
-        position.z = -4;
-
-        defaultPosition.Add(position);
-        Units[i].transform.localPosition = position;
+        Units[i].transform.localPosition = new Vector3(-1920, -1920, -1920); ;
         Units[i].transform.SetParent(transform);
         
 
@@ -142,9 +133,7 @@ public class UnitBar : Photon.MonoBehaviour {
 
     [PunRPC]
     private void towerInstantiate(int i, int x, int y, int type) {
-        print("debug1");
         Towers.Add(PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NewPlayer"), new Vector3(0, 0, 1), Quaternion.identity, 0).GetComponent<Unit>());
-        print("debug2");
         Towers[i].isTower = true;
         switch (type) {
             case 0:
@@ -257,5 +246,9 @@ public class UnitBar : Photon.MonoBehaviour {
     private void updateRS()
     {
         readyState++;
+    }
+
+    public void setSelectUnit(int i) {
+        selectUnit = Units[i];
     }
 }

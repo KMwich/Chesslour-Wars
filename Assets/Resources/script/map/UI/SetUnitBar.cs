@@ -21,7 +21,6 @@ public class SetUnitBar : MonoBehaviour {
         receive_subTypeUnit = GameManager.Instance.SubTypeUnit;
         slot = new List<GameObject>();
         unitIsSet = new List<bool>();
-        print("xxss" + receive_mainTypeUnit.Count);
         for (int i = 0; i < receive_mainTypeUnit.Count; i++)
         {
             if (receive_mainTypeUnit[i] == 0)
@@ -53,19 +52,19 @@ public class SetUnitBar : MonoBehaviour {
                 slot[i].transform.SetParent(content.transform);
             }
             slot[i].GetComponent<SetUnitBar_Slot>().UnitIndex = i;
-            unitIsSet.Add(true); //unit all not set
+            unitIsSet.Add(false); //unit all not set
         }
     }
 
     public void deployUnit(int index)
     {
-        GameObject tempObj = slot[index];
-        Destroy(slot[index]);
-        ////bool test = functionWith(index);
-        //if (true)
-        //{
-        //    unitIsSet[index] = true;
-        //}
+        UnitBar.Instance.setSelectUnit(index);
+        unitIsSet[index] = true;
+        updateList();
+    }
+
+    public void cantSetUnit(int i) {
+        unitIsSet[i] = false;
         updateList();
     }
 
@@ -76,43 +75,27 @@ public class SetUnitBar : MonoBehaviour {
             Destroy(obj);
         }
         slot.Clear();
-        print("sss" + receive_mainTypeUnit.Count);
-        for (int i = 0; i < unitIsSet.Count; i++)
-        {
-            if(!unitIsSet[i])
-            {
+        for (int i = 0; i < unitIsSet.Count; i++) {
+            if (unitIsSet[i]) {
                 continue;
-            }
-            else if (receive_mainTypeUnit[i] == 0)
-            {
-                print("sdf");
-                print(slot.Count);
-                slot.Add(Instantiate(slotPrefab));
-                print(slot.Count);
-                Sprite img = Resources.Load<Sprite>(unit_database.units.Attacker[receive_subTypeUnit[i]].SpritePath_img);
-                slot[i].GetComponent<Image>().sprite = img;
-                slot[i].transform.SetParent(content.transform);
-            }
-            else if (receive_mainTypeUnit[i] == 1)
-            {
-                slot.Add(Instantiate(slotPrefab));
-                Sprite img = Resources.Load<Sprite>(unit_database.units.Supporter[receive_subTypeUnit[i]].SpritePath_img);
-                slot[i].GetComponent<Image>().sprite = img;
-                slot[i].transform.SetParent(content.transform);
-            }
-            else if (receive_mainTypeUnit[i] == 2)
-            {
-                slot.Add(Instantiate(slotPrefab));
-                Sprite img = Resources.Load<Sprite>(unit_database.units.Sturture[receive_subTypeUnit[i]].SpritePath_img);
-                slot[i].GetComponent<Image>().sprite = img;
-                slot[i].transform.SetParent(content.transform);
-            }
-            else
-            {
-                slot.Add(Instantiate(slotPrefab));
-                Sprite img = Resources.Load<Sprite>(unit_database.units.Trap[receive_subTypeUnit[i]].SpritePath_img);
-                slot[i].GetComponent<Image>().sprite = img;
-                slot[i].transform.SetParent(content.transform);
+            } else {
+                GameObject button = Instantiate(slotPrefab);
+                if (receive_mainTypeUnit[i] == 0) {
+                    Sprite img = Resources.Load<Sprite>(unit_database.units.Attacker[receive_subTypeUnit[i]].SpritePath_img);
+                    button.GetComponent<Image>().sprite = img;
+                } else if (receive_mainTypeUnit[i] == 1) {
+                    Sprite img = Resources.Load<Sprite>(unit_database.units.Supporter[receive_subTypeUnit[i]].SpritePath_img);
+                    button.GetComponent<Image>().sprite = img;
+                } else if (receive_mainTypeUnit[i] == 2) {
+                    Sprite img = Resources.Load<Sprite>(unit_database.units.Sturture[receive_subTypeUnit[i]].SpritePath_img);
+                    button.GetComponent<Image>().sprite = img;
+                } else {
+                    Sprite img = Resources.Load<Sprite>(unit_database.units.Trap[receive_subTypeUnit[i]].SpritePath_img);
+                    button.GetComponent<Image>().sprite = img;
+                }
+                button.transform.SetParent(content.transform);
+                button.GetComponent<SetUnitBar_Slot>().UnitIndex = i;
+                slot.Add(button);
             }
         }
     }
