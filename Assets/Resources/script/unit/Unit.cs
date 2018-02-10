@@ -11,6 +11,11 @@ public class Unit : Photon.MonoBehaviour
     private string TargetSprite;
     private Vector3 TargetScale;
     private bool TargetIsTower;
+    private int TargetHp;
+    private int TargetAtk;
+    private int TargetDef;
+    private int TargetMovement;
+    private int TargetAtkRange;
     private PhotonView PhotonView;
 
     public bool havePlayed = false;
@@ -93,6 +98,12 @@ public class Unit : Photon.MonoBehaviour
                 coordinate = HexCoordinates.FromPosition(TargetPosition);
                 transform.rotation = TargetRotation;
                 SpritePath = TargetSprite;
+                structure.SpritePath_img = TargetSprite;
+                structure.Hp = TargetHp;
+                structure.Atk = TargetAtk;
+                structure.Def = TargetDef;
+                structure.Movement = TargetMovement;
+                structure.Atkrange = TargetAtkRange;
                 this.setUnitSprite(TargetSprite);
                 if (UnitBar.Instance.isPlay) {
                     transform.localScale = TargetScale;
@@ -121,6 +132,11 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(SpritePath);
             stream.SendNext(isTower);
             stream.SendNext(transform.localScale);
+            stream.SendNext(structure.Hp);
+            stream.SendNext(structure.Atk);
+            stream.SendNext(structure.Def);
+            stream.SendNext(structure.Movement);
+            stream.SendNext(structure.Atkrange);
         }
         else
         {
@@ -129,6 +145,11 @@ public class Unit : Photon.MonoBehaviour
             TargetSprite = (string)stream.ReceiveNext();
             TargetIsTower = (bool)stream.ReceiveNext();
             TargetScale = (Vector3)stream.ReceiveNext();
+            TargetHp = (int)stream.ReceiveNext();
+            TargetAtk = (int)stream.ReceiveNext();
+            TargetDef = (int)stream.ReceiveNext();
+            TargetMovement = (int)stream.ReceiveNext();
+            TargetAtkRange = (int)stream.ReceiveNext();
         }
     }
 
