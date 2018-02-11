@@ -63,4 +63,6 @@ MonoBehaviour:
   - RPC_destroyUnit
   - damaged
   - setAtkBuff
+  - setBuff
+  - resetCooldown
   DisableAutoOpenWizard: 1

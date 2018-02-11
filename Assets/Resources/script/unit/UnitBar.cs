@@ -22,6 +22,7 @@ public class UnitBar : Photon.MonoBehaviour {
     public int action = 0;
     public List<HexCoordinates> moveArea;
     public Unit selectUnit;
+    public skillStructure selectSkill;
 
     private List<Unit> _units;
     private List<Unit> _units2;
@@ -248,7 +249,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit == null) return;
         if (selectUnit.haveMoved == true || selectUnit.havePlayed == true){ print("move already");  return; }
         action = 1;
-        moveArea = _hexGrid.setMoveFilter(selectUnit.coordinate, selectUnit.structure.Movement);
+        moveArea = _hexGrid.setMoveFilter(selectUnit.coordinate, selectUnit.structure.Movement + selectUnit.movementbuff);
         Debug.Log("setMove");
     }
 
@@ -257,7 +258,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit == null) return;
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("attack already"); return; }
         action = 2;
-        _hexGrid.setAttackFilter(selectUnit.coordinate, selectUnit.structure.Atkrange);
+        _hexGrid.setAttackFilter(selectUnit.coordinate, selectUnit.structure.Atkrange + selectUnit.atkrangebuff);
         Debug.Log("setAttack");
     }
 
@@ -265,7 +266,16 @@ public class UnitBar : Photon.MonoBehaviour {
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("skill already"); return; }
-        action = 3;
+        
+        if(selectSkill.SkillTarget == "Foe") {
+            action = 3;
+            _hexGrid.setAttackFilter(selectUnit.coordinate, selectSkill.SkillRange);
+        }
+        else
+        {
+            action = 4;
+            _hexGrid.setMoveFilter(selectUnit.coordinate, selectSkill.SkillRange);
+        }
     }
 
     [PunRPC]
@@ -283,4 +293,5 @@ public class UnitBar : Photon.MonoBehaviour {
         action = 0;
         _hexGrid.clearHexFilter();
     }
+
 }

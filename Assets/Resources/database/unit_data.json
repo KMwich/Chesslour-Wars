@@ -56,8 +56,8 @@
                "SkillTarget":"Self",
                "SkillType":"Buff",
                "SkillRange":0,
-               "SkillCooldown":3,
-               "SkillDuration":5
+               "SkillCooldown":4,
+               "SkillDuration":3
             }
          ],
          "Atk":18,
@@ -90,8 +90,8 @@
                "SkillTarget":"Allies",
                "SkillType":"Buff",
                "SkillRange":2,
-               "SkillCooldown":3,
-               "SkillDuration":2
+               "SkillCooldown":4,
+               "SkillDuration":1
             }
          ],
          "Atk":10,
@@ -115,7 +115,7 @@
                "SkillTarget":"Foe",
                "SkillType":"Attack",
                "SkillRange":2,
-               "SkillCooldown":3,
+               "SkillCooldown":4,
                "SkillDuration":2
             },
             {
@@ -149,7 +149,7 @@
                "SkillTarget":"Field",
                "SkillType":"Attack",
                "SkillRange":2,
-               "SkillCooldown":4,
+               "SkillCooldown":2,
                "SkillDuration":0
             },
             {
@@ -158,8 +158,8 @@
                "SkillTarget":"Allies",
                "SkillType":"Buff",
                "SkillRange":2,
-               "SkillCooldown":3,
-               "SkillDuration":1
+               "SkillCooldown":4,
+               "SkillDuration":3
             }
          ],
          "Atk":13,
@@ -185,7 +185,7 @@
                "SkillTarget":"Allies",
                "SkillType":"Buff",
                "SkillRange":1,
-               "SkillCooldown":1,
+               "SkillCooldown":0,
                "SkillDuration":0
             },
             {
