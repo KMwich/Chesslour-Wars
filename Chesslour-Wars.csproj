@@ -367,6 +367,7 @@
     <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Assets\Resources\script\chess.cs" />
+    <Compile Include="Assets\Resources\script\database script\skillStructure.cs" />
     <Compile Include="Assets\Resources\script\database script\unit.cs" />
     <Compile Include="Assets\Resources\script\database script\unit_database.cs" />
     <Compile Include="Assets\Resources\script\database script\unitStructure.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="Assets\Resources\script\map\HexMetrics.cs" />
     <Compile Include="Assets\Resources\script\map\JsonMap.cs" />
     <Compile Include="Assets\Resources\script\map\PopUpControl.cs" />
+    <Compile Include="Assets\Resources\script\map\SkillControl.cs" />
     <Compile Include="Assets\Resources\script\map\StatusControl.cs" />
     <Compile Include="Assets\Resources\script\map\UI\SetUnitBar.cs" />
     <Compile Include="Assets\Resources\script\map\UI\SetUnitBar_Slot.cs" />

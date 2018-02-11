@@ -193,7 +193,7 @@ public class Unit : Photon.MonoBehaviour
         } else {
             if (PhotonView.isMine)
             {
-                if (UnitBar.Instance.action == 2)
+                if (UnitBar.Instance.action == 3)
                 {
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
                     if (dist <= UnitBar.Instance.selectUnit.structure.Atkrange)

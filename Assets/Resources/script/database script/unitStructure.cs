@@ -6,10 +6,7 @@ public class unitStructure
     public string SpritePath_img2;
     public string AbilityName;
     public string AbilityPath_img;
-    public string Skill1Name;
-    public string Skill1Path_img;
-    public string Skill2Name;
-    public string Skill2Path_img;
+    public skillStructure[] Skill;
 
     public int Atk;
     public int Def;

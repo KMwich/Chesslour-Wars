@@ -98,21 +98,26 @@ public class UnitBar : Photon.MonoBehaviour {
                 Units[i].setUnitSprite(unit_database.units.Attacker[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Attacker[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Attacker[SubTypeUnit];
+                print(Units[i].structure.Skill[0].SkillName);
+
                 break;
             case 1:
                 Units[i].setUnitSprite(unit_database.units.Supporter[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Supporter[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Supporter[SubTypeUnit];
+                print(Units[i].structure.Skill[0].SkillName);
                 break;
             case 2:
                 Units[i].setUnitSprite(unit_database.units.Sturture[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Sturture[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Sturture[SubTypeUnit];
+                print(Units[i].structure.Skill[0].SkillName);
                 break;
             case 3:
                 Units[i].setUnitSprite(unit_database.units.Trap[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Trap[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Trap[SubTypeUnit];
+                print(Units[i].structure.Skill[0].SkillName);
                 break;
         }
 
