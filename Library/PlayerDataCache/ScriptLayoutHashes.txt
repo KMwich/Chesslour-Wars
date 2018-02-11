@@ -213,7 +213,7 @@ ec0082b40adf3b0930cd87250ffdbf1d Assembly-CSharp.dll:.SupportLogger
 08712033bfb8d4fd2842041f9a20ded7 Assembly-CSharp.dll:.ManualPhotonViewAllocator
 d1755adc44fcb9e44c42a5889d35f7a0 Assembly-CSharp.dll:.MoveByKeys
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.QuitOnEscapeOrBack
-abd0286bfec81f91a7cbeb7c6304236c Assembly-CSharp.dll:.Unit
+f26ecf5eebbbcc16d99274966ea6ecb0 Assembly-CSharp.dll:.Unit
 604f5f55c1cc414f64da1990b36ff015 Assembly-CSharp.dll:.PhotonView
 b2dc25029b6f083ffbbdf9df269f825a Assembly-CSharp.dll:.InRoomChat
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.unit_database

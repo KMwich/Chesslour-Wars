@@ -61,4 +61,5 @@ MonoBehaviour:
   - increaseTurn
   - ReActionPoints
   - RPC_destroyUnit
+  - damaged
   DisableAutoOpenWizard: 1

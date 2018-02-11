@@ -11,11 +11,12 @@ public class Unit : Photon.MonoBehaviour
     private string TargetSprite;
     private Vector3 TargetScale;
     private bool TargetIsTower;
-    private int TargetHp;
+    private int TargetMaxHp;
     private int TargetAtk;
     private int TargetDef;
     private int TargetMovement;
     private int TargetAtkRange;
+    private int TargetDamage;
     private PhotonView PhotonView;
 
     public bool havePlayed = false;
@@ -31,6 +32,7 @@ public class Unit : Photon.MonoBehaviour
     public HexCoordinates coordinate;
     public bool isTower = false;
     public unitStructure structure;
+    public int Damage;
 
     // Use this for initialization
     void Awake()
@@ -99,11 +101,12 @@ public class Unit : Photon.MonoBehaviour
                 transform.rotation = TargetRotation;
                 SpritePath = TargetSprite;
                 structure.SpritePath_img = TargetSprite;
-                structure.Hp = TargetHp;
+                structure.Hp = TargetMaxHp;
                 structure.Atk = TargetAtk;
                 structure.Def = TargetDef;
                 structure.Movement = TargetMovement;
                 structure.Atkrange = TargetAtkRange;
+                Damage = TargetDamage;
                 this.setUnitSprite(TargetSprite);
                 if (UnitBar.Instance.isPlay) {
                     transform.localScale = TargetScale;
@@ -137,6 +140,7 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(structure.Def);
             stream.SendNext(structure.Movement);
             stream.SendNext(structure.Atkrange);
+            stream.SendNext(Damage);
         }
         else
         {
@@ -145,11 +149,12 @@ public class Unit : Photon.MonoBehaviour
             TargetSprite = (string)stream.ReceiveNext();
             TargetIsTower = (bool)stream.ReceiveNext();
             TargetScale = (Vector3)stream.ReceiveNext();
-            TargetHp = (int)stream.ReceiveNext();
+            TargetMaxHp = (int)stream.ReceiveNext();
             TargetAtk = (int)stream.ReceiveNext();
             TargetDef = (int)stream.ReceiveNext();
             TargetMovement = (int)stream.ReceiveNext();
             TargetAtkRange = (int)stream.ReceiveNext();
+            TargetDamage = (int)stream.ReceiveNext();
         }
     }
 
@@ -183,7 +188,9 @@ public class Unit : Photon.MonoBehaviour
                 if (UnitBar.Instance.action == 2) {
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
                     if (dist == UnitBar.Instance.selectUnit.structure.Atkrange) {
-                        desTroyUnit();
+                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk);
+                        print("Damage : "+ Damage);
+                        if (structure.Hp - Damage <= 0)desTroyUnit();
                         UnitBar.Instance.selectUnit.havePlayed = true;
                         UnitBar.Instance.selectUnit.haveMoved = true;
                         StatusControl.Instance.ActionPoints -= 1;
@@ -192,6 +199,13 @@ public class Unit : Photon.MonoBehaviour
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void damaged(int atk)
+    {
+        Damage += (atk * atk) / (atk + structure.Def);
+
     }
 
     public void setUnitSprite(string path) {
