@@ -19,6 +19,9 @@ public class Unit : Photon.MonoBehaviour
     private int TargetDamage;
     private PhotonView PhotonView;
 
+    public int atkbuff;
+    private int countTurn;
+
     public bool havePlayed = false;
     public bool haveMoved = false;
 
@@ -93,6 +96,10 @@ public class Unit : Photon.MonoBehaviour
                                 }
                             }
                         }
+                    }
+                    if(StatusControl.Instance.turn == countTurn)
+                    {
+                        PhotonView.RPC("setAtkBuff", PhotonTargets.All, 0, 0, 0);
                     }
                 }
             } else {
@@ -184,11 +191,26 @@ public class Unit : Photon.MonoBehaviour
                 UnitBar.Instance.selectUnit = null;
             }
         } else {
+            if (PhotonView.isMine)
+            {
+                if (UnitBar.Instance.action == 2)
+                {
+                    int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
+                    if (dist <= UnitBar.Instance.selectUnit.structure.Atkrange)
+                    {
+                        PhotonView.RPC("setAtkBuff", PhotonTargets.All, 5, 2, StatusControl.Instance.turn);
+                        UnitBar.Instance.selectUnit.havePlayed = true;
+                        UnitBar.Instance.selectUnit.haveMoved = true;
+                        StatusControl.Instance.ActionPoints -= 1;
+                        UnitBar.Instance.clearSelectUnit();
+                    }
+                }
+            }
             if (!PhotonView.isMine) {
                 if (UnitBar.Instance.action == 2) {
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
                     if (dist == UnitBar.Instance.selectUnit.structure.Atkrange) {
-                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk);
+                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff);
                         print("Damage : "+ Damage);
                         if (structure.Hp - Damage <= 0)desTroyUnit();
                         UnitBar.Instance.selectUnit.havePlayed = true;
@@ -206,6 +228,13 @@ public class Unit : Photon.MonoBehaviour
     {
         Damage += (atk * atk) / (atk + structure.Def);
 
+    }
+
+    [PunRPC]
+    public void setAtkBuff(int atk,int count,int turn)
+    {
+        countTurn = turn + count;
+        atkbuff = atk;
     }
 
     public void setUnitSprite(string path) {

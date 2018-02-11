@@ -6,7 +6,7 @@ public class StatusControl : MonoBehaviour {
 
     public static StatusControl Instance;
     PhotonView PhotonView;
-    private int turn;
+    public int turn;
     public bool active = false;
     private int count = 0;
 

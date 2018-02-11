@@ -62,4 +62,5 @@ MonoBehaviour:
   - ReActionPoints
   - RPC_destroyUnit
   - damaged
+  - setAtkBuff
   DisableAutoOpenWizard: 1

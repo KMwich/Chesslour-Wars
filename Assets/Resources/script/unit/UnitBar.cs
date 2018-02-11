@@ -211,6 +211,10 @@ public class UnitBar : Photon.MonoBehaviour {
 
     public void setPlayGame()
     {
+        for (int i = 0; i < Units.Count; i++)
+        {
+            if (Units[i].coordinate.Equals(HexCoordinates.defaultCoordinate)) return;
+        }
         _hexGrid.clearHexFilter();
 
         if (ready == 1) { return; }
@@ -250,6 +254,13 @@ public class UnitBar : Photon.MonoBehaviour {
         action = 2;
         _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Atkrange, action);
         Debug.Log("setAttack");
+    }
+
+    public void setSkill() {
+        if (!StatusControl.Instance.active) return;
+        if (selectUnit == null) return;
+        if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("skill already"); return; }
+        action = 3;
     }
 
     [PunRPC]
