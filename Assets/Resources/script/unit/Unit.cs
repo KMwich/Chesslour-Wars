@@ -168,7 +168,7 @@ public class Unit : Photon.MonoBehaviour
     private void OnMouseDown() {
         if (UnitBar.Instance.ready == 1) return;
         //if not select set this to select
-        if (UnitBar.Instance.action == 0) {
+        if (UnitBar.Instance.selectUnit == null) {
             UnitBar.Instance.selectUnit = this;
             return;
         }

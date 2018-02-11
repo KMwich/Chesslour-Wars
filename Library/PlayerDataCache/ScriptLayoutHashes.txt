@@ -147,7 +147,7 @@ edde2238d31ef88f91b3914c0e86465d Assembly-CSharp.dll:.MainCanvasManager
 efeafbe4320dcb6f93db9072db9141ef Assembly-CSharp.dll:.StatusControl
 090584907af2e462994cc893ced507b3 Assembly-CSharp.dll:.PhotonRigidbodyView
 ada54cb428213a7e0c4b986e95788f97 Assembly-CSharp.dll:.PhotonTransformView
-3c695c515141cc209a685b05a09d8942 Assembly-CSharp.dll:.UnitBar
+f15cb357b80a06c240a76b5b6ac57b1e Assembly-CSharp.dll:.UnitBar
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ObjectManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.DDOL
 c0ad1fb5d400aa83cb257e5f6c3714cf Assembly-CSharp.dll:.OnClickDestroy
