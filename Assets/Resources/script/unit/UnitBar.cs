@@ -20,7 +20,7 @@ public class UnitBar : Photon.MonoBehaviour {
 
     public bool isPlay = false;
     public int action = 0;
-
+    public List<HexCoordinates> moveArea;
     public Unit selectUnit;
 
     private List<Unit> _units;
@@ -248,7 +248,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit == null) return;
         if (selectUnit.haveMoved == true || selectUnit.havePlayed == true){ print("move already");  return; }
         action = 1;
-        _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Movement, action);
+        moveArea = _hexGrid.setMoveFilter(selectUnit.coordinate, selectUnit.structure.Movement);
         Debug.Log("setMove");
     }
 
@@ -257,7 +257,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit == null) return;
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("attack already"); return; }
         action = 2;
-        _hexGrid.setHexFilter(selectUnit.coordinate, selectUnit.structure.Atkrange, action);
+        _hexGrid.setAttackFilter(selectUnit.coordinate, selectUnit.structure.Atkrange);
         Debug.Log("setAttack");
     }
 

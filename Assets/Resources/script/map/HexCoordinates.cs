@@ -82,4 +82,18 @@ public struct HexCoordinates {
     public static int cubeDeistance (HexCoordinates a, HexCoordinates b) {
         return Mathf.Max(Mathf.Abs(a.X - b.X), Mathf.Abs(a.Y - b.Y), Mathf.Abs(a.Z - b.Z));
     }
+
+    public static HexCoordinates[] neighbor(HexCoordinates coordinate) {
+        HexCoordinates[] n = new HexCoordinates[6];
+        
+        for (int i = 0, x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if (y != x) {
+                    n[i] = new HexCoordinates(x + coordinate.X, y + coordinate.Y);
+                    i++;
+                }
+            }
+        }
+        return n;
+    }
 }

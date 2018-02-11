@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour {
 
@@ -83,7 +84,7 @@ public class HexGrid : MonoBehaviour {
         return HexCoordinates.FromPosition(hit.point);
     }
 
-    public void setHexFilter(HexCoordinates coordinate, int size, int action) {
+    public void setSkillFilter(HexCoordinates coordinate, int size, int action) {
         if (hexFilter != null) clearHexFilter();
         hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
         hexFilter.transform.SetParent(transform, false);
@@ -103,6 +104,70 @@ public class HexGrid : MonoBehaviour {
                     hexFilter.setFilter(HexCoordinates.FromOffsetCoordinates(iX, iY + iX/ 2), action);
             }
         }
+    }
+
+    public void setAttackFilter(HexCoordinates coordinate, int size) {
+        if (hexFilter != null) clearHexFilter();
+        hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
+        hexFilter.transform.SetParent(transform, false);
+
+        for (int x = -size; x <= size; x++) {
+            int iX = x + coordinate.X;
+
+            if ((iX < 0 || iX >= width)) continue;
+            for (int y = Mathf.Max(-size, -x - size); y <= Mathf.Min(size, -x + size); y++) {
+                int iY = y + coordinate.Y;
+                if (((iY + iX / 2) < 0 || (iY + iX / 2) >= height)) continue;
+
+                Debug.Log(HexCoordinates.cubeDeistance(coordinate, HexCoordinates.FromOffsetCoordinates(iX, iY + iX / 2)));
+
+                if (HexCoordinates.cubeDeistance(coordinate, HexCoordinates.FromOffsetCoordinates(iX, iY + iX / 2)) != size) continue;
+                int index = iX + (iY + iX / 2) * width;
+
+                if (cells[index] != null && (cells[index].mapType != 1 && cells[index].mapType != 2))
+                    hexFilter.setFilter(HexCoordinates.FromOffsetCoordinates(iX, iY + iX / 2), 2);
+            }
+        }
+    }
+
+    public List<HexCoordinates> setMoveFilter(HexCoordinates coordinate, int size) {
+        if (hexFilter != null) clearHexFilter();
+        hexFilter = Instantiate<HexFilter>(hexFilterPrefab);
+        hexFilter.transform.SetParent(transform, false);
+
+        List<HexCoordinates> coordinates = canMoveCoordinates(coordinate, 0, size);
+
+        for (int i = 0; i < coordinates.Count; i++) {
+            hexFilter.setFilter(coordinates[i], 1);
+        }
+
+        return coordinates;
+    }
+
+    public List<HexCoordinates> canMoveCoordinates(HexCoordinates coordinate, int start , int stop) {
+        HexCoordinates[] n = HexCoordinates.neighbor(coordinate);
+        List<HexCoordinates> coordinates = new List<HexCoordinates>();
+        if (start == stop) {
+            coordinates.Add(coordinate);
+        } else {
+            for (int i = 0; i < n.Length; i++) {
+                Vector3 offset = HexCoordinates.cubeToOffset(n[i]);
+                int type = cells[(int)(offset.x + (offset.z * width))].mapType;
+                if (cells[(int)(offset.x + (offset.z * width))] != null && (type != 2 && type != 1)) {
+                    List<HexCoordinates> tmp = canMoveCoordinates(n[i], start + 1, stop);
+                    for (int j = 0; j < tmp.Count; j++) {
+                        if (!coordinates.Contains(tmp[j])) {
+                            offset = HexCoordinates.cubeToOffset(tmp[j]);
+                            type = cells[(int)(offset.x + (offset.z * width))].mapType;
+                            if (type != 2 && type != 1)
+                                coordinates.Add(tmp[j]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return coordinates;
     }
 
     public void clearHexFilter() {

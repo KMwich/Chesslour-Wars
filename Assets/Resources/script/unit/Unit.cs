@@ -88,7 +88,7 @@ public class Unit : Photon.MonoBehaviour
                                 int dist = HexCoordinates.cubeDeistance(coordinate, UnitBar.Instance._hexGrid.getTouchCoordinate());
                                 if (dist != 0 && dist <= structure.Movement) {
                                     HexCoordinates touchCoordinate = UnitBar.Instance._hexGrid.getTouchCoordinate();
-                                    if (!canSetPosition(touchCoordinate)) return;
+                                    if (!UnitBar.Instance.moveArea.Contains(touchCoordinate) || !canSetPosition(touchCoordinate)) return;
                                     coordinate = touchCoordinate;
                                     setUnitPosition(HexCoordinates.cubeToOffset(coordinate));
                                     UnitBar.Instance.clearSelectUnit();
@@ -168,7 +168,7 @@ public class Unit : Photon.MonoBehaviour
     private void OnMouseDown() {
         if (UnitBar.Instance.ready == 1) return;
         //if not select set this to select
-        if (UnitBar.Instance.selectUnit == null) {
+        if (UnitBar.Instance.action == 0) {
             UnitBar.Instance.selectUnit = this;
             return;
         }
