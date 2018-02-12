@@ -88,7 +88,7 @@ public class UnitBar : Photon.MonoBehaviour {
                 clearSelectUnit();
             }
 
-            if (enemyTowers.Count == 0 || enemyUnits.Count == 0)
+            if (winLose == 0 && (enemyTowers.Count == 0 || enemyUnits.Count == 0))
             {
                 winLose++;
                 PhotonView.RPC("gameover", PhotonTargets.All);
@@ -167,9 +167,8 @@ public class UnitBar : Photon.MonoBehaviour {
                 Towers[i].SpritePath = "sprite/unit/red/CRnexus";
                 break;
         }
-        print(x + " " + y);
+
         Vector3 position = HexCoordinates.cubeToOffset(HexCoordinates.FromOffsetCoordinates(x, y));
-        print(position.x + " " + position.y);
         Towers[i].setUnitPosition(position);
         Towers[i].transform.SetParent(transform);
 

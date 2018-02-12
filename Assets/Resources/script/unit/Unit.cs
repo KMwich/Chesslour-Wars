@@ -174,23 +174,21 @@ public class Unit : Photon.MonoBehaviour
             {
                 if (UnitBar.Instance.winLose > 0) return;
 
+                if (TargetIsTower) {
+                    if (!UnitBar.Instance.enemyTowers.Contains(this)) { UnitBar.Instance.enemyTowers.Add(this); }
+                } else {
+                    if (!UnitBar.Instance.enemyUnits.Contains(this)) { UnitBar.Instance.enemyUnits.Add(this); }
+                }
+                this.transform.SetParent(UnitBar.Instance.transform);
+
                 transform.position = TargetPosition;
                 coordinate = HexCoordinates.FromPosition(TargetPosition);
                 transform.rotation = TargetRotation;
-                if(!PhotonView.isMine)structure.SpritePath_img = structure.SpritePath_img2;
+                if(!PhotonView.isMine) structure.SpritePath_img = structure.SpritePath_img2;
                 if (!isTower) this.setUnitSprite(structure.SpritePath_img);
                 if (UnitBar.Instance.isPlay)
                 {
                     transform.localScale = TargetScale;
-                    if (TargetIsTower)
-                    {
-                        if (!UnitBar.Instance.enemyTowers.Contains(this)) { UnitBar.Instance.enemyTowers.Add(this); }
-                    }
-                    else
-                    {
-                        if (!UnitBar.Instance.enemyUnits.Contains(this)) { UnitBar.Instance.enemyUnits.Add(this); }
-                    }
-                    this.transform.SetParent(UnitBar.Instance.transform);
                 }
                 else
                 {
@@ -198,6 +196,7 @@ public class Unit : Photon.MonoBehaviour
                     {
                         isTower = TargetIsTower;
                         transform.localScale = TargetScale;
+                        SpritePath = TargetSprite;
                         this.setUnitSprite(TargetSprite);
                     }
                 }
@@ -298,7 +297,7 @@ public class Unit : Photon.MonoBehaviour
                     if (dist == UnitBar.Instance.selectUnit.structure.Atkrange + UnitBar.Instance.selectUnit.atkrangebuff) {
                         PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff + UnitBar.Instance.selectUnit.passiveatk);
                         print("Damage : "+ Damage);
-                        if (structure.Hp - Damage <= 0)desTroyUnit();
+                        if (structure.Hp - Damage <= 0) desTroyUnit();
                         UnitBar.Instance.selectUnit.havePlayed = true;
                         UnitBar.Instance.selectUnit.haveMoved = true;
                         StatusControl.Instance.ActionPoints -= 1;
@@ -437,7 +436,6 @@ public class Unit : Photon.MonoBehaviour
     public void damaged(int atk)
     {
         Damage += (atk * atk) / (atk + structure.Def+passivedef);
-
     }
 
     [PunRPC]
