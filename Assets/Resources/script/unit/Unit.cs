@@ -11,18 +11,6 @@ public class Unit : Photon.MonoBehaviour
     private string TargetSprite;
     private Vector3 TargetScale;
     private bool TargetIsTower;
-    private int TargetMaxHp;
-    private int TargetAtk;
-    private int TargetDef;
-    private int TargetMovement;
-    private int TargetAtkRange;
-    private int TargetDamage;
-    private int TargetAtkBuff;
-    private int TargetDefBuff;
-    private int TargetMovementBuff;
-    private int TargetAtkRangeBuff;
-    private int TargetPassiveAtk;
-    private int TargetPassiveDef;
     private PhotonView PhotonView;
 
     public int atkbuff;
@@ -37,6 +25,10 @@ public class Unit : Photon.MonoBehaviour
     public int passiveatk;
     public int passivedef;
 
+    public int MainT;
+    public int SubT;
+
+    private int sendFirst = 0;
 
     public int[] cooldownSkill = { 0, 0 };
 
@@ -62,7 +54,6 @@ public class Unit : Photon.MonoBehaviour
         PhotonView = GetComponent<PhotonView>();
         Vector3 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
         gameObject.GetComponent<BoxCollider2D>().size = S;
-
         if (!PhotonView.isMine)
         {
             this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.0f, 8.0f, 1.0f);
@@ -77,6 +68,7 @@ public class Unit : Photon.MonoBehaviour
             if (PhotonView.isMine)
             {
                 //code start here
+                if (UnitBar.Instance.winLose > 0) return;
 
                 if (StatusControl.Instance.active == false)
                 {
@@ -104,6 +96,7 @@ public class Unit : Photon.MonoBehaviour
                     //move code
                     if (PhotonView.isMine)
                     {
+                        if (structure != null && sendFirst == 0) { PhotonView.RPC("setStruct", PhotonTargets.All,MainT,SubT); sendFirst++; print("send"); }
                         if (structure.Name == "Warrior")
                         {
                             int count = 0;
@@ -117,15 +110,21 @@ public class Unit : Photon.MonoBehaviour
                                         if (UnitBar.Instance.Units[j].structure.Name.Equals("Warrior"))
                                         {
                                             count++;
-                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 5);
-                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 5);
-                                        }
-                                        else if(count == 0)
-                                        {
-                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 0);
-                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 0);
+                                            if (passiveatk != 5 || passivedef != 5)
+                                            {
+                                                PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 5);
+                                                PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 5);
+                                            }
                                         }
                                     }
+                                }
+                            }
+                            if (count == 0)
+                            {
+                                if (passiveatk != 0 || passivedef != 0)
+                                {
+                                    PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 0);
+                                    PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 0);
                                 }
                             }
                         }
@@ -135,7 +134,7 @@ public class Unit : Photon.MonoBehaviour
 
                             Vector3Int offset = HexCoordinates.cubeToOffset(this.coordinate);
                             int type = UnitBar.Instance._hexGrid.cells[offset.x + (offset.z * UnitBar.Instance._hexGrid.width)].mapType;
-                            if(type == 0)
+                            if (type == 0)
                             {
                                 PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 3);
                             }
@@ -145,7 +144,7 @@ public class Unit : Photon.MonoBehaviour
                             }
                         }
                     }
-                    
+
 
                     if (!this.Equals(UnitBar.Instance.selectUnit)) return;
 
@@ -173,24 +172,13 @@ public class Unit : Photon.MonoBehaviour
             }
             else
             {
+                if (UnitBar.Instance.winLose > 0) return;
+
                 transform.position = TargetPosition;
                 coordinate = HexCoordinates.FromPosition(TargetPosition);
                 transform.rotation = TargetRotation;
-                SpritePath = TargetSprite;
-                structure.SpritePath_img = TargetSprite;
-                structure.Hp = TargetMaxHp;
-                structure.Atk = TargetAtk;
-                structure.Def = TargetDef;
-                structure.Movement = TargetMovement;
-                structure.Atkrange = TargetAtkRange;
-                Damage = TargetDamage;
-                atkbuff = TargetAtkBuff;
-                defbuff = TargetDefBuff;
-                movementbuff = TargetMovementBuff;
-                atkrangebuff = TargetAtkRangeBuff;
-                passiveatk = TargetPassiveAtk;
-                passivedef = TargetPassiveDef;
-                this.setUnitSprite(TargetSprite);
+                if(!PhotonView.isMine)structure.SpritePath_img = structure.SpritePath_img2;
+                if (!isTower) this.setUnitSprite(structure.SpritePath_img);
                 if (UnitBar.Instance.isPlay)
                 {
                     transform.localScale = TargetScale;
@@ -210,6 +198,7 @@ public class Unit : Photon.MonoBehaviour
                     {
                         isTower = TargetIsTower;
                         transform.localScale = TargetScale;
+                        this.setUnitSprite(TargetSprite);
                     }
                 }
             }
@@ -245,46 +234,24 @@ public class Unit : Photon.MonoBehaviour
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(SpritePath);
             stream.SendNext(isTower);
             stream.SendNext(transform.localScale);
-            stream.SendNext(structure.Hp);
-            stream.SendNext(structure.Atk);
-            stream.SendNext(structure.Def);
-            stream.SendNext(structure.Movement);
-            stream.SendNext(structure.Atkrange);
-            stream.SendNext(Damage);
-            stream.SendNext(atkbuff);
-            stream.SendNext(defbuff);
-            stream.SendNext(movementbuff);
-            stream.SendNext(atkrangebuff);
-            stream.SendNext(passiveatk);
-            stream.SendNext(passivedef);
+            stream.SendNext(SpritePath);
 
         }
         else
         {
             TargetPosition = (Vector3)stream.ReceiveNext();
             TargetRotation = (Quaternion)stream.ReceiveNext();
-            TargetSprite = (string)stream.ReceiveNext();
             TargetIsTower = (bool)stream.ReceiveNext();
             TargetScale = (Vector3)stream.ReceiveNext();
-            TargetMaxHp = (int)stream.ReceiveNext();
-            TargetAtk = (int)stream.ReceiveNext();
-            TargetDef = (int)stream.ReceiveNext();
-            TargetMovement = (int)stream.ReceiveNext();
-            TargetAtkRange = (int)stream.ReceiveNext();
-            TargetDamage = (int)stream.ReceiveNext();
-            TargetAtkBuff = (int)stream.ReceiveNext();
-            TargetDefBuff = (int)stream.ReceiveNext();
-            TargetMovementBuff = (int)stream.ReceiveNext();
-            TargetAtkRangeBuff = (int)stream.ReceiveNext();
-            TargetPassiveAtk = (int)stream.ReceiveNext();
-            TargetPassiveDef = (int)stream.ReceiveNext();
+            TargetSprite = (string)stream.ReceiveNext();
         }
     }
 
     private void OnMouseDown() {
+        if (UnitBar.Instance.winLose > 0) return;
+
         if (UnitBar.Instance.ready == 1) return;
         //if not select set this to select
         if (UnitBar.Instance.selectUnit == null) {
@@ -512,5 +479,25 @@ public class Unit : Photon.MonoBehaviour
     public void resetCooldown(int num)
     {
         cooldownSkill[num] = 0;
+    }
+
+    [PunRPC]
+    public void setStruct(int MainTypeUnit , int SubTypeUnit)
+    {
+        switch (MainTypeUnit)
+        {
+            case 0:
+                structure = unit_database.units.Attacker[SubTypeUnit];
+                break;
+            case 1:
+                structure = unit_database.units.Supporter[SubTypeUnit];
+                break;
+            case 2:
+                structure = unit_database.units.Sturture[SubTypeUnit];
+                break;
+            case 3:
+                structure = unit_database.units.Trap[SubTypeUnit];
+                break;
+        }
     }
 }

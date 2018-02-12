@@ -156,7 +156,7 @@ efeafbe4320dcb6f93db9072db9141ef Assembly-CSharp.dll:.StatusControl
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 ada54cb428213a7e0c4b986e95788f97 Assembly-CSharp.dll:.PhotonTransformView
-f4aa517792c4dfc0646fed817c9886a2 Assembly-CSharp.dll:.UnitBar
+4fc7629b293645286abe92d4c1bd273f Assembly-CSharp.dll:.UnitBar
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ObjectManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.DDOL
 c0ad1fb5d400aa83cb257e5f6c3714cf Assembly-CSharp.dll:.OnClickDestroy
@@ -214,8 +214,9 @@ ec0082b40adf3b0930cd87250ffdbf1d Assembly-CSharp.dll:.SupportLogger
 08712033bfb8d4fd2842041f9a20ded7 Assembly-CSharp.dll:.ManualPhotonViewAllocator
 d1755adc44fcb9e44c42a5889d35f7a0 Assembly-CSharp.dll:.MoveByKeys
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.QuitOnEscapeOrBack
-4b980116b664ffd2e92ae9c158428ad2 Assembly-CSharp.dll:.Unit
+fdb1d0996afad8d8c105937c4537900c Assembly-CSharp.dll:.Unit
 604f5f55c1cc414f64da1990b36ff015 Assembly-CSharp.dll:.PhotonView
 b2dc25029b6f083ffbbdf9df269f825a Assembly-CSharp.dll:.InRoomChat
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.unit_database
 c6a5899f9bf81007cb1eb8d916eb6b81 Assembly-CSharp.dll:.PlayerLayoutGroup
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.WhoseTurn

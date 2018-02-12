@@ -17,8 +17,8 @@ public class PlayerNetwork : MonoBehaviour {
 
         PlayerName = "Player" + Random.Range(1000, 9999);
 
-        PhotonNetwork.sendRate = 60;
-        PhotonNetwork.sendRateOnSerialize = 30;
+        PhotonNetwork.sendRate = 20;
+        PhotonNetwork.sendRateOnSerialize = 10;
 
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
 

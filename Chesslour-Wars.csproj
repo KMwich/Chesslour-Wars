@@ -401,6 +401,7 @@
     <Compile Include="Assets\Resources\script\map\StatusControl.cs" />
     <Compile Include="Assets\Resources\script\map\UI\SetUnitBar.cs" />
     <Compile Include="Assets\Resources\script\map\UI\SetUnitBar_Slot.cs" />
+    <Compile Include="Assets\Resources\script\map\WhoseTurn.cs" />
     <Compile Include="Assets\Resources\script\ObjectManager.cs" />
     <Compile Include="Assets\Resources\script\select scene\ChangeToScene.cs" />
     <Compile Include="Assets\Resources\script\select scene\GameStatus.cs" />

@@ -23,6 +23,7 @@ public class UnitBar : Photon.MonoBehaviour {
     public List<HexCoordinates> moveArea;
     public Unit selectUnit;
     public skillStructure selectSkill;
+    public int winLose = 0;
 
     private List<Unit> _units;
     private List<Unit> _units2;
@@ -86,7 +87,21 @@ public class UnitBar : Photon.MonoBehaviour {
             if (Input.GetMouseButtonUp(1)) {
                 clearSelectUnit();
             }
+
+            if (enemyTowers.Count == 0 || enemyUnits.Count == 0)
+            {
+                winLose++;
+                PhotonView.RPC("gameover", PhotonTargets.All);
+            }
         }
+    }
+
+    [PunRPC]
+    private void gameover()
+    {
+        winLose++;
+        ObjectManager.Instance.hide(2);
+        ObjectManager.Instance.show(3);
     }
 
     [PunRPC]
@@ -99,26 +114,29 @@ public class UnitBar : Photon.MonoBehaviour {
                 Units[i].setUnitSprite(unit_database.units.Attacker[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Attacker[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Attacker[SubTypeUnit];
-                print(Units[i].structure.Skill[0].SkillName);
-
+                Units[i].MainT = MainTypeUnit;
+                Units[i].SubT = SubTypeUnit;
                 break;
             case 1:
                 Units[i].setUnitSprite(unit_database.units.Supporter[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Supporter[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Supporter[SubTypeUnit];
-                print(Units[i].structure.Skill[0].SkillName);
+                Units[i].MainT = MainTypeUnit;
+                Units[i].SubT = SubTypeUnit;
                 break;
             case 2:
                 Units[i].setUnitSprite(unit_database.units.Sturture[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Sturture[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Sturture[SubTypeUnit];
-                print(Units[i].structure.Skill[0].SkillName);
+                Units[i].MainT = MainTypeUnit;
+                Units[i].SubT = SubTypeUnit;
                 break;
             case 3:
                 Units[i].setUnitSprite(unit_database.units.Trap[SubTypeUnit].SpritePath_img);
                 Units[i].SpritePath = unit_database.units.Trap[SubTypeUnit].SpritePath_img2;
                 Units[i].structure = unit_database.units.Trap[SubTypeUnit];
-                print(Units[i].structure.Skill[0].SkillName);
+                Units[i].MainT = MainTypeUnit;
+                Units[i].SubT = SubTypeUnit;
                 break;
         }
 
@@ -245,6 +263,7 @@ public class UnitBar : Photon.MonoBehaviour {
     }
 
     public void setMove() {
+        if (winLose > 0) return;
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
         if (selectUnit.haveMoved == true || selectUnit.havePlayed == true){ print("move already");  return; }
@@ -254,6 +273,7 @@ public class UnitBar : Photon.MonoBehaviour {
     }
 
     public void setAttack() {
+        if (winLose > 0) return;
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("attack already"); return; }
@@ -263,6 +283,7 @@ public class UnitBar : Photon.MonoBehaviour {
     }
 
     public void setSkill() {
+        if (winLose > 0) return;
         if (!StatusControl.Instance.active) return;
         if (selectUnit == null) return;
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("skill already"); return; }

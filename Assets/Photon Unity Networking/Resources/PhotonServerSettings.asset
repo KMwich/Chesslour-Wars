@@ -66,4 +66,6 @@ MonoBehaviour:
   - setBuff
   - resetCooldown
   - setPassiveBuff
+  - setStruct
+  - gameover
   DisableAutoOpenWizard: 1

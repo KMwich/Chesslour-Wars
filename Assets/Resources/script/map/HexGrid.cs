@@ -151,12 +151,17 @@ public class HexGrid : MonoBehaviour {
             coordinates.Add(coordinate);
         } else {
             for (int i = 0; i < n.Length; i++) {
-                Vector3 offset = HexCoordinates.cubeToOffset(n[i]);
-                int type = cells[(int)(offset.x + (offset.z * width))].mapType;
-                if (cells[(int)(offset.x + (offset.z * width))] != null && (type != 2 && type != 1)) {
+                Vector3Int offset = HexCoordinates.cubeToOffset(n[i]);
+                if (offset.x < 0 || offset.x >= width || offset.z < 0 || offset.z >= height) continue;
+                if (cells[offset.x + (offset.z * width)] == null) continue;
+                int type = cells[(offset.x + (offset.z * width))].mapType;
+                if ((type != 2 && type != 1)) {
                     List<HexCoordinates> tmp = canMoveCoordinates(n[i], start + 1, stop);
                     for (int j = 0; j < tmp.Count; j++) {
                         if (!coordinates.Contains(tmp[j])) {
+                            offset = HexCoordinates.cubeToOffset(tmp[j]);
+                            if (offset.x < 0 || offset.x >= width || offset.z < 0 || offset.z >= height) continue;
+                            if (cells[offset.x + (offset.z * width)] == null) continue;
                             offset = HexCoordinates.cubeToOffset(tmp[j]);
                             type = cells[(int)(offset.x + (offset.z * width))].mapType;
                             if (type != 2 && type != 1)
