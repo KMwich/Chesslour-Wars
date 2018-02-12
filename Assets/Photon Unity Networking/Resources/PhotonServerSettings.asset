@@ -65,4 +65,5 @@ MonoBehaviour:
   - setAtkBuff
   - setBuff
   - resetCooldown
+  - setPassiveBuff
   DisableAutoOpenWizard: 1

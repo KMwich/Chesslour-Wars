@@ -21,6 +21,8 @@ public class Unit : Photon.MonoBehaviour
     private int TargetDefBuff;
     private int TargetMovementBuff;
     private int TargetAtkRangeBuff;
+    private int TargetPassiveAtk;
+    private int TargetPassiveDef;
     private PhotonView PhotonView;
 
     public int atkbuff;
@@ -31,6 +33,9 @@ public class Unit : Photon.MonoBehaviour
     private int movementbuffcountTurn;
     public int atkrangebuff;
     private int atkrangebuffcountTurn;
+
+    public int passiveatk;
+    public int passivedef;
 
 
     public int[] cooldownSkill = { 0, 0 };
@@ -97,6 +102,50 @@ public class Unit : Photon.MonoBehaviour
                 else
                 {
                     //move code
+                    if (PhotonView.isMine)
+                    {
+                        if (structure.Name == "Warrior")
+                        {
+                            int count = 0;
+                            HexCoordinates[] neightbor = HexCoordinates.neighbor(this.coordinate);
+                            for (int i = 0; i < neightbor.Length; i++)
+                            {
+                                for (int j = 0; j < UnitBar.Instance.Units.Count; j++)
+                                {
+                                    if (UnitBar.Instance.Units[j].coordinate.Equals(neightbor[i]))
+                                    {
+                                        if (UnitBar.Instance.Units[j].structure.Name.Equals("Warrior"))
+                                        {
+                                            count++;
+                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 5);
+                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 5);
+                                        }
+                                        else if(count == 0)
+                                        {
+                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 0);
+                                            PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "def", 0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (structure.Name == "Hunter")
+                        {
+
+                            Vector3Int offset = HexCoordinates.cubeToOffset(this.coordinate);
+                            int type = UnitBar.Instance._hexGrid.cells[offset.x + (offset.z * UnitBar.Instance._hexGrid.width)].mapType;
+                            if(type == 0)
+                            {
+                                PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 3);
+                            }
+                            else
+                            {
+                                PhotonView.RPC("setPassiveBuff", PhotonTargets.All, "atk", 0);
+                            }
+                        }
+                    }
+                    
 
                     if (!this.Equals(UnitBar.Instance.selectUnit)) return;
 
@@ -139,6 +188,8 @@ public class Unit : Photon.MonoBehaviour
                 defbuff = TargetDefBuff;
                 movementbuff = TargetMovementBuff;
                 atkrangebuff = TargetAtkRangeBuff;
+                passiveatk = TargetPassiveAtk;
+                passivedef = TargetPassiveDef;
                 this.setUnitSprite(TargetSprite);
                 if (UnitBar.Instance.isPlay)
                 {
@@ -164,19 +215,19 @@ public class Unit : Photon.MonoBehaviour
             }
             if (StatusControl.Instance.turn == atkbuffcountTurn)
             {
-                PhotonView.RPC("setBuff", PhotonTargets.All, 0, 0, 0, "atk");
+                PhotonView.RPC("setBuff", PhotonTargets.All, -atkbuff, 0, 0, "atk");
             }
             if (StatusControl.Instance.turn == defbuffcountTurn)
             {
-                PhotonView.RPC("setBuff", PhotonTargets.All, 0, 0, 0, "def");
+                PhotonView.RPC("setBuff", PhotonTargets.All, -defbuff, 0, 0, "def");
             }
             if (StatusControl.Instance.turn == movementbuffcountTurn)
             {
-                PhotonView.RPC("setBuff", PhotonTargets.All, 0, 0, 0, "movement");
+                PhotonView.RPC("setBuff", PhotonTargets.All, -movementbuff, 0, 0, "movement");
             }
             if (StatusControl.Instance.turn == atkrangebuffcountTurn)
             {
-                PhotonView.RPC("setBuff", PhotonTargets.All, 0, 0, 0, "attack range");
+                PhotonView.RPC("setBuff", PhotonTargets.All, -atkrangebuff, 0, 0, "attack range");
             }
 
             for (int i = 0; i < 2; i++) { 
@@ -207,6 +258,8 @@ public class Unit : Photon.MonoBehaviour
             stream.SendNext(defbuff);
             stream.SendNext(movementbuff);
             stream.SendNext(atkrangebuff);
+            stream.SendNext(passiveatk);
+            stream.SendNext(passivedef);
 
         }
         else
@@ -226,6 +279,8 @@ public class Unit : Photon.MonoBehaviour
             TargetDefBuff = (int)stream.ReceiveNext();
             TargetMovementBuff = (int)stream.ReceiveNext();
             TargetAtkRangeBuff = (int)stream.ReceiveNext();
+            TargetPassiveAtk = (int)stream.ReceiveNext();
+            TargetPassiveDef = (int)stream.ReceiveNext();
         }
     }
 
@@ -273,8 +328,8 @@ public class Unit : Photon.MonoBehaviour
             if (!PhotonView.isMine) {
                 if (UnitBar.Instance.action == 2) {
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
-                    if (dist == UnitBar.Instance.selectUnit.structure.Atkrange + atkrangebuff) {
-                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff);
+                    if (dist == UnitBar.Instance.selectUnit.structure.Atkrange + UnitBar.Instance.selectUnit.atkrangebuff) {
+                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff + UnitBar.Instance.selectUnit.passiveatk);
                         print("Damage : "+ Damage);
                         if (structure.Hp - Damage <= 0)desTroyUnit();
                         UnitBar.Instance.selectUnit.havePlayed = true;
@@ -289,7 +344,7 @@ public class Unit : Photon.MonoBehaviour
                     int dist = HexCoordinates.cubeDeistance(UnitBar.Instance.selectUnit.coordinate, coordinate);
                     if (dist == UnitBar.Instance.selectSkill.SkillRange)
                     {
-                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff);
+                        PhotonView.RPC("damaged", PhotonTargets.All, UnitBar.Instance.selectUnit.structure.Atk + UnitBar.Instance.selectUnit.atkbuff + UnitBar.Instance.selectUnit.passiveatk);
                         print("Damage : " + Damage);
                         if (structure.Hp - Damage <= 0) desTroyUnit();
                         UnitBar.Instance.selectUnit.havePlayed = true;
@@ -414,7 +469,7 @@ public class Unit : Photon.MonoBehaviour
     [PunRPC]
     public void damaged(int atk)
     {
-        Damage += (atk * atk) / (atk + structure.Def);
+        Damage += (atk * atk) / (atk + structure.Def+passivedef);
 
     }
 
@@ -425,25 +480,32 @@ public class Unit : Photon.MonoBehaviour
         switch (type)
         {
             case "atk":
-                atkbuff = buff;
+                atkbuff += buff;
                 atkbuffcountTurn = turn + count;
                 break;
             case "def":
-                defbuff = buff;
+                defbuff += buff;
                 defbuffcountTurn = turn + count;
                 break;
             case "movement":
-                movementbuff = buff;
+                movementbuff += buff;
                 movementbuffcountTurn = turn + count;
                 break;
             case "attack range":
-                atkrangebuff = buff;
+                atkrangebuff += buff;
                 atkrangebuffcountTurn = turn + count;
                 break;
             case "hp":
                 Damage -= buff;
                 break;
         }
+    }
+
+    [PunRPC]
+    public void setPassiveBuff(string type,int num)
+    {
+        if (type.Equals("atk")) passiveatk = num;
+        else passivedef = num;
     }
 
     [PunRPC]

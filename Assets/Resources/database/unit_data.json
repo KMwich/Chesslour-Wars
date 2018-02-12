@@ -1,7 +1,7 @@
 {
    "Attacker":[
       {
-         "Name":"Warriror",
+         "Name":"Warrior",
          "SpritePath_img":"sprite/unit/blue/CBwarrior",
          "SpritePath_img2":"sprite/unit/red/CRwarrior",
          "AbilityName":"United we stand",

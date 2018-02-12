@@ -70,10 +70,10 @@ public struct HexCoordinates {
         return new HexCoordinates(iX, iZ);
     }
 
-    public static Vector3 cubeToOffset (HexCoordinates coordinate) {
-        Vector3 vector;
+    public static Vector3Int cubeToOffset (HexCoordinates coordinate) {
+        Vector3Int vector = new Vector3Int();
         vector.x = coordinate.X;
-        vector.y = 0f;
+        vector.y = 0;
         vector.z = coordinate.Y + coordinate.X / 2;
 
         return vector;
