@@ -255,6 +255,7 @@ public class Unit : Photon.MonoBehaviour
         //if not select set this to select
         if (UnitBar.Instance.selectUnit == null) {
             UnitBar.Instance.selectUnit = this;
+            if (photonView.isMine) ObjectManager.Instance.showSelectButton(transform.position);
             return;
         }
 

@@ -20,5 +20,15 @@ public class ObjectManager : MonoBehaviour {
         Instance = this;
     }
 
+    public void showSelectButton(Vector3 position) {
+        GameObject obj = this.GetComponent<Transform>().Find("Phase2").gameObject.GetComponent<Transform>().Find("select button").gameObject;
+        obj.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        position.x = ((position.x - 75) / 105 * 720) + 825;
+        position.y += ((position.y - 21) / 30 * 160) + 271;
+        obj.transform.position = position;
+    }
 
+    public void hideSelectButton() {
+        this.GetComponent<Transform>().Find("Phase2").gameObject.GetComponent<Transform>().Find("select button").gameObject.GetComponent<RectTransform>().localScale = new Vector3(0, 1, 1);
+    }
 }

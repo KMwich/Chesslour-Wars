@@ -86,6 +86,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (isPlay) {
             if (Input.GetMouseButtonUp(1)) {
                 clearSelectUnit();
+                ObjectManager.Instance.hideSelectButton();
             }
 
             if (winLose == 0 && (enemyTowers.Count == 0 || enemyUnits.Count == 0))
@@ -268,6 +269,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit.haveMoved == true || selectUnit.havePlayed == true){ print("move already");  return; }
         action = 1;
         moveArea = _hexGrid.setMoveFilter(selectUnit.coordinate, selectUnit.structure.Movement + selectUnit.movementbuff);
+        ObjectManager.Instance.hideSelectButton();
         Debug.Log("setMove");
     }
 
@@ -278,6 +280,7 @@ public class UnitBar : Photon.MonoBehaviour {
         if (selectUnit.havePlayed == true || StatusControl.Instance.ActionPoints == 0) { print("attack already"); return; }
         action = 2;
         _hexGrid.setAttackFilter(selectUnit.coordinate, selectUnit.structure.Atkrange + selectUnit.atkrangebuff);
+        ObjectManager.Instance.hideSelectButton();
         Debug.Log("setAttack");
     }
 
@@ -312,6 +315,7 @@ public class UnitBar : Photon.MonoBehaviour {
         selectUnit = null;
         action = 0;
         _hexGrid.clearHexFilter();
+        ObjectManager.Instance.hideSelectButton();
     }
 
 }
